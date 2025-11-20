@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secure Code Locker</title>
 
-<!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
 <style>
 body {
     font-family: "Poppins", sans-serif;
@@ -170,25 +167,6 @@ h2, h3 { color:#ff3f9f; }
     transition: 0.3s;
 }
 .closeBtn:hover { color: #ff3f9f; transform: scale(1.3); text-shadow: 0 0 12px #ff3f9f; }
-
-.map-container { width: 100%; height: 200px; margin-top: 10px; border-radius:10px; }
-
-/* Pulsing Marker Effect */
-.leaflet-marker-icon.pulse {
-    width: 20px !important;
-    height: 20px !important;
-    margin-left: -10px !important;
-    margin-top: -10px !important;
-    border-radius: 50%;
-    background: rgba(255,63,159,0.8);
-    animation: pulse 1.5s infinite;
-    border: 2px solid white;
-}
-@keyframes pulse {
-    0% { transform: scale(0.7); opacity: 1; }
-    70% { transform: scale(2); opacity: 0; }
-    100% { transform: scale(0.7); opacity: 0; }
-}
 </style>
 </head>
 <body>
@@ -224,8 +202,7 @@ h2, h3 { color:#ff3f9f; }
         <h3>🚓 Police Station</h3>
         <p>Address: Kushtia Police Station, Kushtia, Bangladesh</p>
         <p>Phone: 071-1234567</p>
-        <button onclick="startTracking('policeMap')" class="optionBtn">📍 Show My Location</button>
-        <div id="policeMap" class="map-container"></div>
+        <button onclick="openInGoogleMaps()" class="optionBtn">📍 Show My Location in Google Maps</button>
     </div>
 </div>
 
@@ -236,13 +213,9 @@ h2, h3 { color:#ff3f9f; }
         <h3>🚒 Fire Service</h3>
         <p>Address: Kushtia Fire Service, Kushtia, Bangladesh</p>
         <p>Phone: 071-7654321</p>
-        <button onclick="startTracking('fireMap')" class="optionBtn">📍 Show My Location</button>
-        <div id="fireMap" class="map-container"></div>
+        <button onclick="openInGoogleMaps()" class="optionBtn">📍 Show My Location in Google Maps</button>
     </div>
 </div>
-
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
 const unlockCode = "12345"; 
@@ -263,33 +236,18 @@ window.onclick = function(event) {
     if(event.target.classList.contains('modal')) { event.target.style.display = 'none'; }
 }
 
-let trackers = {};
-
-function startTracking(mapId) {
-    if (!navigator.geolocation) {
-        alert("Geolocation is not supported by this browser.");
-        return;
-    }
-
-    const mapDiv = document.getElementById(mapId);
-    mapDiv.innerHTML = "";
-    let map = L.map(mapId).setView([0,0], 2);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19}).addTo(map);
-
-    // Create pulsing marker
-    let pulsingIcon = L.divIcon({className: 'pulse'});
-    let marker = L.marker([0,0], {icon: pulsingIcon}).addTo(map);
-
-    if(trackers[mapId]) clearInterval(trackers[mapId]);
-
-    trackers[mapId] = setInterval(() => {
+// Open Google Maps with current location
+function openInGoogleMaps() {
+    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((pos) => {
             const lat = pos.coords.latitude;
             const lon = pos.coords.longitude;
-            marker.setLatLng([lat, lon]);
-            map.setView([lat, lon], 16, {animate:true});
+            const url = `https://www.google.com/maps?q=${lat},${lon}`;
+            window.open(url, "_blank");
         });
-    }, 3000);
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
 }
 </script>
 
