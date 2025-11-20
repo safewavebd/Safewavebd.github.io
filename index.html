@@ -22,6 +22,37 @@
         to { opacity: 1; }
     }
 
+    /* ⭐ Animated Rainbow Team Name */
+    #teamName {
+        font-size: 32px;
+        font-weight: 800;
+        background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 1400% 1400%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        margin-bottom: 5px;
+        animation: rainbowAnimation 8s ease infinite, fadeIn 1.3s ease;
+        letter-spacing: 1.5px;
+    }
+
+    @keyframes rainbowAnimation {
+        0%{background-position:0% 50%;}
+        50%{background-position:100% 50%;}
+        100%{background-position:0% 50%;}
+    }
+
+    /* ⭐ Build Credit */
+    #buildBy {
+        font-size: 14px;
+        color: white;
+        text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        margin-bottom: 15px;
+        opacity: 0.85;
+        animation: fadeIn 1.5s ease;
+        letter-spacing: 0.5px;
+    }
+
     #box {
         background:white;
         padding:25px;
@@ -93,6 +124,11 @@
 </head>
 <body>
 
+<!-- ⭐ Animated Rainbow Team Name -->
+<div id="teamName">🔱 Team SafeWave BD</div>
+<!-- ⭐ Build Credit -->
+<div id="buildBy">@build by Md Zihad</div>
+
 <div id="box">
     <div class="lock">🔒</div>
     <h2>Enter Secure Code</h2>
@@ -102,14 +138,13 @@
 
 <div id="details">
     <h3>Protected Info</h3>
-    <p><strong>Blood:</strong>A+</p>
+    <p><strong>Blood:</strong> <span style="color:red; font-weight:bold;">A+</span></p>
     <p><strong>Name:</strong> Md ZihadUL Islam</p>
     <p><strong>Phone:</strong> 01887039083</p>
     <p><strong>Father:</strong> Md Jamal Uddin</p>
     <p><strong>F-Phone:</strong> 01576760222</p>
     <p><strong>Address:</strong> Kushtia, Bangladesh</p>
     <p><strong>Email:</strong> mdzihadul0132@gmail.com</p>
-   
 </div>
 
 <script>
