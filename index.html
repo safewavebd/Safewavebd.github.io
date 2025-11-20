@@ -3,53 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Code Locker</title>
+<title>Secure Code Locker</title>
+
 <style>
     body {
-        font-family: Arial, sans-serif;
-        background:#f4f4f4;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #ff9acb, #7acbff);
         display:flex;
         justify-content:center;
         align-items:center;
         height:100vh;
         flex-direction:column;
+        animation: fadeIn 1s ease;
     }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
     #box {
         background:white;
-        padding:20px;
-        border-radius:10px;
-        box-shadow:0 0 10px rgba(0,0,0,0.2);
+        padding:25px;
+        border-radius:15px;
+        box-shadow:0 0 20px rgba(255, 255, 255, 0.6);
         text-align:center;
-        width:300px;
+        width:320px;
+        animation: slideUp 0.7s ease;
     }
+
+    @keyframes slideUp {
+        from { transform: translateY(40px); opacity:0; }
+        to { transform: translateY(0); opacity:1; }
+    }
+
     input {
-        padding:10px;
+        padding:12px;
         width:90%;
-        margin-bottom:10px;
+        border:2px solid #ff7eb8;
+        border-radius:8px;
+        margin-bottom:12px;
+        outline:none;
+        font-size:16px;
+        transition:0.3s;
     }
+    input:focus {
+        border-color:#7acbff;
+        box-shadow:0 0 8px #7acbff;
+    }
+
     button {
-        padding:10px 20px;
+        padding:12px 25px;
+        background:#ff7eb8;
+        color:white;
+        border:none;
+        border-radius:8px;
+        font-size:16px;
         cursor:pointer;
+        transition:0.3s;
     }
+
+    button:hover {
+        background:#ff559e;
+        box-shadow:0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
     #details {
         margin-top:20px;
-        background:#fff;
-        padding:15px;
-        border-radius:10px;
+        background:white;
+        padding:20px;
+        width:320px;
+        border-radius:15px;
+        box-shadow:0 0 20px rgba(255, 255, 255, 0.6);
         display:none;
+        animation: fadeIn 0.8s ease;
+    }
+
+    h2, h3 {
+        color:#ff3f9f;
+    }
+
+    .lock {
+        font-size:45px;
+        color:#ff3f9f;
+        margin-bottom:15px;
     }
 </style>
+
 </head>
 <body>
 
 <div id="box">
-    <h2>Enter Unlock Code</h2>
+    <div class="lock">🔒</div>
+    <h2>Enter Secure Code</h2>
     <input type="password" id="codeInput" placeholder="Enter code">
     <button onclick="checkCode()">Unlock</button>
 </div>
 
 <div id="details">
-    <h3>Your Details</h3>
+    <h3>Protected Info</h3>
     <p><strong>Name:</strong> Md Zihad</p>
     <p><strong>Address:</strong> Kushtia, Bangladesh</p>
     <p><strong>Email:</strong> yourmail@gmail.com</p>
@@ -57,14 +109,15 @@
 </div>
 
 <script>
-    const unlockCode = "12345"; // এখানে তুমি তোমার গোপন কোড দেবে
+    const unlockCode = "12345"; 
 
     function checkCode() {
         const entered = document.getElementById("codeInput").value;
+
         if(entered === unlockCode){
             document.getElementById("details").style.display = "block";
         } else {
-            alert("❌ Invalid Code");
+            alert("❌ Wrong Code! Access Denied.");
         }
     }
 </script>
