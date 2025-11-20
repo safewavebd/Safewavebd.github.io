@@ -1,19 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SafeWave</title>
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            margin-top: 100px;
-        }
-        h1 { color: #e91e63; }
-        p { font-size: 20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Locker</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background:#f4f4f4;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        flex-direction:column;
+    }
+    #box {
+        background:white;
+        padding:20px;
+        border-radius:10px;
+        box-shadow:0 0 10px rgba(0,0,0,0.2);
+        text-align:center;
+        width:300px;
+    }
+    input {
+        padding:10px;
+        width:90%;
+        margin-bottom:10px;
+    }
+    button {
+        padding:10px 20px;
+        cursor:pointer;
+    }
+    #details {
+        margin-top:20px;
+        background:#fff;
+        padding:15px;
+        border-radius:10px;
+        display:none;
+    }
+</style>
 </head>
 <body>
-    <h1>Welcome to SafeWave</h1>
-    <p>This is a women safety project website.</p>
+
+<div id="box">
+    <h2>Enter Unlock Code</h2>
+    <input type="password" id="codeInput" placeholder="Enter code">
+    <button onclick="checkCode()">Unlock</button>
+</div>
+
+<div id="details">
+    <h3>Your Details</h3>
+    <p><strong>Name:</strong> Md Zihad</p>
+    <p><strong>Address:</strong> Kushtia, Bangladesh</p>
+    <p><strong>Email:</strong> yourmail@gmail.com</p>
+    <p><strong>Phone:</strong> 01XXXXXXXXX</p>
+</div>
+
+<script>
+    const unlockCode = "12345"; // এখানে তুমি তোমার গোপন কোড দেবে
+
+    function checkCode() {
+        const entered = document.getElementById("codeInput").value;
+        if(entered === unlockCode){
+            document.getElementById("details").style.display = "block";
+        } else {
+            alert("❌ Invalid Code");
+        }
+    }
+</script>
+
 </body>
 </html>
