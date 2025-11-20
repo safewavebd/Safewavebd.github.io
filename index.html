@@ -3,70 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secure Code Locker</title>
+<title>Team SafeWave BD - Secure Locker</title>
 
 <style>
+/* --------------------------- */
+/* General Body + Background */
+/* --------------------------- */
 body {
+    margin:0;
+    padding:0;
     font-family: "Poppins", sans-serif;
     background: linear-gradient(135deg, #ff9acb, #7acbff);
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
     flex-direction:column;
-    margin:0;
-    animation: fadeIn 1s ease;
+    min-height:100vh;
+    animation: fadeIn 1s ease forwards;
+    overflow-x:hidden;
 }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
 
+/* --------------------------- */
+/* Rainbow Team Name */
+/* --------------------------- */
 #teamName {
-    font-size: 32px;
-    font-weight: 800;
+    font-size:36px;
+    font-weight:900;
     background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
     background-size: 1400% 1400%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 10px rgba(255,255,255,0.5);
-    margin-bottom: 5px;
-    animation: rainbowAnimation 8s ease infinite, fadeIn 1.3s ease;
-    letter-spacing: 1.5px;
+    animation: rainbowAnim 10s ease infinite, fadeIn 1.5s ease forwards;
+    text-shadow: 0 0 15px rgba(255,255,255,0.5);
+    letter-spacing:2px;
+    margin-bottom:5px;
 }
-@keyframes rainbowAnimation { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+@keyframes rainbowAnim {
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
 
-#buildBy { font-size: 14px; color: white; text-shadow: 0 0 5px rgba(255,255,255,0.5); margin-bottom: 15px; opacity: 0.85; animation: fadeIn 1.5s ease; letter-spacing: 0.5px; }
+#buildBy {
+    font-size:14px;
+    color:white;
+    opacity:0.85;
+    letter-spacing:1px;
+    text-shadow:0 0 5px rgba(255,255,255,0.5);
+    margin-bottom:15px;
+}
 
-#box { background:white; padding:25px; border-radius:15px; box-shadow:0 0 20px rgba(255, 255, 255, 0.6); text-align:center; width:90%; max-width: 350px; animation: slideUp 0.7s ease; }
-@keyframes slideUp { from { transform: translateY(40px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+/* --------------------------- */
+/* Box Section */
+/* --------------------------- */
+#box {
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 0 30px rgba(255,255,255,0.6);
+    width:90%;
+    max-width:380px;
+    text-align:center;
+    animation: slideUp 0.7s ease forwards;
+}
+@keyframes slideUp {
+    from { transform:translateY(40px); opacity:0; }
+    to { transform:translateY(0); opacity:1; }
+}
 
-input, textarea { padding:12px; width:90%; border:2px solid #ff7eb8; border-radius:8px; margin-bottom:12px; outline:none; font-size:16px; transition:0.3s; }
-input:focus, textarea:focus { border-color:#7acbff; box-shadow:0 0 8px #7acbff; }
+/* --------------------------- */
+/* Input and Button Styles */
+/* --------------------------- */
+input, textarea {
+    width:90%;
+    padding:12px;
+    border:2px solid #ff7eb8;
+    border-radius:10px;
+    font-size:16px;
+    margin-bottom:12px;
+    outline:none;
+    transition:0.3s;
+}
+input:focus, textarea:focus { border-color:#7acbff; box-shadow:0 0 10px #7acbff; }
 
-button { padding:12px 25px; background:#ff7eb8; color:white; border:none; border-radius:8px; font-size:16px; cursor:pointer; transition:0.3s; }
-button:hover { background:#ff559e; box-shadow:0 0 10px rgba(255, 255, 255, 0.8); }
+button {
+    padding:12px 25px;
+    font-size:16px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
 
-.optionBtn { margin-top: 8px; width: 90%; padding: 12px; background: #ffffff55; border: 2px solid white; border-radius: 10px; color: white; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 0 6px rgba(255,255,255,0.3); }
-.optionBtn:hover { background: white; color: #ff3f9f; box-shadow: 0 0 20px rgba(255,63,159,0.8), 0 0 30px rgba(255,63,159,0.6); transform: scale(1.05); }
+/* Gradient Buttons */
+button.unlockBtn {
+    background: linear-gradient(45deg, #ff3f9f, #ff9acb, #7acbff);
+    background-size:300% 300%;
+    color:white;
+    box-shadow:0 0 10px rgba(255,255,255,0.5);
+    animation: gradientMove 3s ease infinite;
+}
+button.unlockBtn:hover { transform:scale(1.05); }
+@keyframes gradientMove {
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
 
-#details { margin-top:20px; background:white; padding:20px; width:90%; max-width: 350px; border-radius:15px; box-shadow:0 0 20px rgba(255, 255, 255, 0.6); display:none; animation: fadeIn 0.8s ease; }
+.optionBtn {
+    margin-top:10px;
+    width:90%;
+    padding:12px;
+    border-radius:10px;
+    border:2px solid white;
+    color:white;
+    background:rgba(255,255,255,0.2);
+    box-shadow:0 0 6px rgba(255,255,255,0.3);
+    transition:0.3s;
+}
+.optionBtn:hover {
+    background:white;
+    color:#ff3f9f;
+    box-shadow:0 0 20px rgba(255,63,159,0.8),0 0 30px rgba(255,63,159,0.6);
+    transform:scale(1.05);
+}
 
-h2, h3 { color:#ff3f9f; }
-.lock { font-size:45px; color:#ff3f9f; margin-bottom:15px; }
+/* --------------------------- */
+/* Details Section */
+/* --------------------------- */
+#details {
+    display:none;
+    margin-top:20px;
+    background:white;
+    padding:20px;
+    width:90%;
+    max-width:380px;
+    border-radius:20px;
+    box-shadow:0 0 25px rgba(255,255,255,0.6);
+    animation: fadeIn 0.8s ease forwards;
+}
 
-.modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
+/* --------------------------- */
+/* Lock Icon */
+/* --------------------------- */
+.lock { font-size:50px; color:#ff3f9f; margin-bottom:15px; }
 
-.modal-content { background: #111; margin: 10% auto; padding: 20px; border-radius: 15px; width:90%; max-width: 350px; text-align: center; box-shadow: 0 0 25px rgba(255,0,150,0.6); border: 4px solid; border-image-slice: 1; border-width: 4px; border-image-source: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet); transform: translateY(-50px); animation: slideDown 0.5s forwards; color: white; }
+/* --------------------------- */
+/* Modals */
+/* --------------------------- */
+.modal {
+    display:none;
+    position:fixed;
+    z-index:999;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.7);
+}
+.modal-content {
+    background:#111;
+    margin:10% auto;
+    padding:20px;
+    border-radius:20px;
+    width:90%;
+    max-width:380px;
+    text-align:center;
+    box-shadow:0 0 25px rgba(255,0,150,0.6);
+    border:4px solid;
+    border-image-slice:1;
+    border-width:4px;
+    border-image-source: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+    color:white;
+    transform: translateY(-50px);
+    animation: slideDown 0.5s forwards;
+}
+@keyframes slideDown {
+    from { transform:translateY(-50px); opacity:0; }
+    to { transform:translateY(0); opacity:1; }
+}
+.closeBtn { color:white; float:right; font-size:22px; font-weight:bold; cursor:pointer; }
+.closeBtn:hover { color:#ff3f9f; transform:scale(1.3); text-shadow:0 0 12px #ff3f9f; }
 
-@keyframes slideDown { from { transform: translateY(-50px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+/* --------------------------- */
+/* Textarea */
+/* --------------------------- */
+textarea { resize:none; height:80px; }
 
-#policeModal h3 { color: #3498db; text-shadow:0 0 6px white; }
-#fireModal h3 { color: #e74c3c; text-shadow:0 0 6px white; }
-#complainModal h3 { color: #f39c12; text-shadow:0 0 6px white; }
+/* --------------------------- */
+/* Complaint Submit Button */
+#complaintForm button {
+    width:100%;
+    padding:12px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    color:white;
+    cursor:pointer;
+    background: linear-gradient(45deg,#ff3f9f,#ff9acb,#7acbff);
+    background-size:300% 300%;
+    animation: gradientMove 3s ease infinite;
+    box-shadow:0 0 10px rgba(255,255,255,0.5);
+    transition:transform 0.3s;
+}
+#complaintForm button:hover { transform:scale(1.05); }
 
-.closeBtn { color: white; float: right; font-size: 22px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-.closeBtn:hover { color: #ff3f9f; transform: scale(1.3); text-shadow: 0 0 12px #ff3f9f; }
+/* --------------------------- */
+/* Success Popup */
+.successPopup {
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background: linear-gradient(45deg, #00ffcc, #00ccff, #ff00ff);
+    color:white;
+    font-size:20px;
+    padding:20px 30px;
+    border-radius:20px;
+    z-index:1000;
+    box-shadow:0 0 20px #fff,0 0 30px #0ff,0 0 40px #f0f;
+    animation: popupAnim 0.6s forwards;
+    text-shadow:0 0 6px #fff,0 0 10px #0ff,0 0 12px #f0f;
+}
+@keyframes popupAnim {
+    0% { transform:translate(-50%,-60%) scale(0.5); opacity:0; }
+    50% { transform:translate(-50%,-50%) scale(1.1); opacity:1; }
+    100% { transform:translate(-50%,-50%) scale(1); opacity:1; }
+}
 
-textarea { resize: none; height: 80px; }
-#complaintForm button { width: 100%; margin-top: 10px; }
+/* --------------------------- */
+/* Additional Styles for Responsiveness */
+@media screen and (max-width:480px){
+    #teamName { font-size:28px; }
+    #box, #details, .modal-content { width:95%; padding:15px; }
+    input, textarea, button, .optionBtn { width:95%; }
+}
 </style>
 </head>
 <body>
@@ -78,7 +250,7 @@ textarea { resize: none; height: 80px; }
     <div class="lock">🔒</div>
     <h2>Enter Secure Code</h2>
     <input type="password" id="codeInput" placeholder="Enter code">
-    <button onclick="checkCode()">Unlock</button>
+    <button class="unlockBtn" onclick="checkCode()">Unlock</button>
 
     <button class="optionBtn" onclick="showPoliceModal()">🚓 Call Police Station</button>
     <button class="optionBtn" onclick="showFireModal()">🚒 Call Fire Service</button>
@@ -96,29 +268,27 @@ textarea { resize: none; height: 80px; }
     <p><strong>Email:</strong> mdzihadul0132@gmail.com</p>
 </div>
 
-<!-- Police Modal -->
+<!-- Modals -->
 <div id="policeModal" class="modal">
     <div class="modal-content">
         <span class="closeBtn" onclick="closeModal('policeModal')">&times;</span>
         <h3>🚓 Police Station</h3>
         <p>Address: Kushtia Police Station, Kushtia, Bangladesh</p>
         <p>Phone: 071-1234567</p>
-        <button onclick="openInGoogleMaps()" class="optionBtn">📍 Show My Location in Google Maps</button>
+        <button class="optionBtn" onclick="openInGoogleMaps()">📍 Show My Location in Google Maps</button>
     </div>
 </div>
 
-<!-- Fire Modal -->
 <div id="fireModal" class="modal">
     <div class="modal-content">
         <span class="closeBtn" onclick="closeModal('fireModal')">&times;</span>
         <h3>🚒 Fire Service</h3>
         <p>Address: Kushtia Fire Service, Kushtia, Bangladesh</p>
         <p>Phone: 071-7654321</p>
-        <button onclick="openInGoogleMaps()" class="optionBtn">📍 Show My Location in Google Maps</button>
+        <button class="optionBtn" onclick="openInGoogleMaps()">📍 Show My Location in Google Maps</button>
     </div>
 </div>
 
-<!-- Complaint Modal -->
 <div id="complainModal" class="modal">
     <div class="modal-content">
         <span class="closeBtn" onclick="closeModal('complainModal')">&times;</span>
@@ -134,49 +304,49 @@ textarea { resize: none; height: 80px; }
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-// Replace these with your actual EmailJS credentials
-emailjs.init("YOUR_USER_ID"); // User ID
-const unlockCode = "12345"; 
+emailjs.init("YOUR_USER_ID"); // Replace with EmailJS User ID
 
-function checkCode() {
+const unlockCode = "12345";
+function checkCode(){
     const entered = document.getElementById("codeInput").value;
     if(entered === unlockCode){
-        document.getElementById("details").style.display = "block";
-    } else {
+        document.getElementById("details").style.display="block";
+    }else{
         alert("❌ Wrong Code! Access Denied.");
     }
 }
 
-function showPoliceModal() { document.getElementById('policeModal').style.display = 'block'; }
-function showFireModal() { document.getElementById('fireModal').style.display = 'block'; }
-function showComplainModal() { document.getElementById('complainModal').style.display = 'block'; }
-function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+function showPoliceModal(){ document.getElementById('policeModal').style.display='block'; }
+function showFireModal(){ document.getElementById('fireModal').style.display='block'; }
+function showComplainModal(){ document.getElementById('complainModal').style.display='block'; }
+function closeModal(id){ document.getElementById(id).style.display='none'; }
 
-window.onclick = function(event) {
-    if(event.target.classList.contains('modal')) { event.target.style.display = 'none'; }
-}
+window.onclick=function(event){ if(event.target.classList.contains('modal')) event.target.style.display='none'; }
 
-function openInGoogleMaps() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((pos) => {
-            const lat = pos.coords.latitude;
-            const lon = pos.coords.longitude;
-            const url = `https://www.google.com/maps?q=${lat},${lon}`;
-            window.open(url, "_blank");
+function openInGoogleMaps(){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(pos=>{
+            const lat=pos.coords.latitude;
+            const lon=pos.coords.longitude;
+            const url=`https://www.google.com/maps?q=${lat},${lon}`;
+            window.open(url,"_blank");
         });
-    } else { alert("Geolocation not supported."); }
+    }else{ alert("Geolocation not supported."); }
 }
 
-// Complaint Form Submission
-document.getElementById("complaintForm").addEventListener("submit", function(event){
-    event.preventDefault();
-    emailjs.sendForm('YOUR_SERVICE_ID','YOUR_TEMPLATE_ID', this)
-        .then(() => { 
-            alert("Complaint Sent Successfully! ✅"); 
+document.getElementById("complaintForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    emailjs.sendForm('YOUR_SERVICE_ID','YOUR_TEMPLATE_ID',this)
+        .then(()=>{ 
+            const s=document.createElement('div');
+            s.className='successPopup';
+            s.innerHTML='✅ Complaint Sent!';
+            document.body.appendChild(s);
+            setTimeout(()=>s.remove(),2500);
             this.reset();
             closeModal('complainModal');
         })
-        .catch(err => alert("Error sending complaint. Make sure you replaced EmailJS IDs!"));
+        .catch(()=>alert("Error sending complaint. Check EmailJS IDs!"));
 });
 </script>
 
