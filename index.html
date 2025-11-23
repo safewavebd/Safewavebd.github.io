@@ -130,24 +130,48 @@ button.unlockBtn:hover { transform:scale(1.05); }
 }
 
 /* --------------------------- */
-/* Details Section */
-/* --------------------------- */
-#details {
-    display:none;
-    margin-top:20px;
-    background:white;
-    padding:20px;
-    width:90%;
-    max-width:380px;
-    border-radius:20px;
-    box-shadow:0 0 25px rgba(255,255,255,0.6);
+/* Profile Card / Protected Info */
+#details.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #ff9acb, #7acbff);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    text-align: center;
+    color: #fff;
     animation: fadeIn 0.8s ease forwards;
+    margin-top: 20px;
 }
 
-/* --------------------------- */
-/* Lock Icon */
-/* --------------------------- */
-.lock { font-size:50px; color:#ff3f9f; margin-bottom:15px; }
+.profile-card img.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    margin-bottom: 15px;
+}
+
+.profile-card .profile-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+
+.profile-card .profile-blood span {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.profile-card p {
+    margin: 5px 0;
+    font-size: 15px;
+    text-shadow: 0 0 6px rgba(0,0,0,0.3);
+}
 
 /* --------------------------- */
 /* Modals */
@@ -238,6 +262,9 @@ textarea { resize:none; height:80px; }
     #teamName { font-size:28px; }
     #box, #details, .modal-content { width:95%; padding:15px; }
     input, textarea, button, .optionBtn { width:95%; }
+    .profile-card img.profile-img { width:100px; height:100px; }
+    .profile-card .profile-name { font-size:20px; }
+    .profile-card p { font-size:14px; }
 }
 </style>
 </head>
@@ -257,10 +284,11 @@ textarea { resize:none; height:80px; }
     <button class="optionBtn" onclick="showComplainModal()">📝 Submit Complaint</button>
 </div>
 
-<div id="details">
-    <h3>Protected Info</h3>
-    <p><strong>Blood:</strong> <span style="color:red; font-weight:bold;">A+</span></p>
-    <p><strong>Name:</strong> Md ZihadUL Islam</p>
+<!-- Protected Info / Profile Card -->
+<div id="details" class="profile-card" style="display:none;">
+    <img src="profile.jpg" alt="Profile Picture" class="profile-img">
+    <h3 class="profile-name">Md ZihadUL Islam</h3>
+    <p class="profile-blood"><strong>Blood:</strong> <span>A+</span></p>
     <p><strong>Phone:</strong> 01887039083</p>
     <p><strong>Father:</strong> Md Jamal Uddin</p>
     <p><strong>F-Phone:</strong> 01576760222</p>
@@ -310,7 +338,7 @@ const unlockCode = "12345";
 function checkCode(){
     const entered = document.getElementById("codeInput").value;
     if(entered === unlockCode){
-        document.getElementById("details").style.display="block";
+        document.getElementById("details").style.display="flex";
     }else{
         alert("❌ Wrong Code! Access Denied.");
     }
