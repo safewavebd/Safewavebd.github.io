@@ -23,9 +23,7 @@ body {
 }
 @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
 
-/* --------------------------- */
-/* Header Logo + Bangladesh Flag */
-/* --------------------------- */
+/* Header */
 #headerBar {
     width: 100%;
     display: flex;
@@ -34,7 +32,6 @@ body {
     padding: 15px 25px;
     animation: fadeIn 1.5s ease forwards;
 }
-
 .logoImg {
     width: 70px;
     height: 70px;
@@ -42,7 +39,6 @@ body {
     object-fit: cover;
     box-shadow: 0 0 15px rgba(255,255,255,0.7);
 }
-
 .flagImg {
     width: 60px;
     height: 40px;
@@ -50,12 +46,8 @@ body {
     border: 2px solid #fff;
     box-shadow: 0 0 12px rgba(255,255,255,0.8);
 }
-
 .headerText { text-align:center; }
 
-/* --------------------------- */
-/* Rainbow Team Name */
-/* --------------------------- */
 #teamName {
     font-size:36px;
     font-weight:900;
@@ -71,7 +63,6 @@ body {
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
 }
-
 #buildBy {
     font-size:14px;
     color:white;
@@ -79,9 +70,38 @@ body {
     margin-top:3px;
 }
 
-/* --------------------------- */
+/* 🔥 3 DOT MENU CSS (ADDED) */
+.moreMenu {
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+.menuBox {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 80px;
+    background: white;
+    color: black;
+    width: 160px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    padding: 10px 0;
+    z-index: 9999;
+}
+.menuBox a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}
+.menuBox a:hover {
+    background: #eee;
+}
+
 /* Box Section */
-/* --------------------------- */
 #box {
     background:white;
     padding:25px;
@@ -92,10 +112,8 @@ body {
     text-align:center;
 }
 
-/* --------------------------- */
-/* Input + Buttons */
-/* --------------------------- */
-input, textarea {
+/* Inputs + Buttons */
+input {
     width:90%;
     padding:12px;
     border:2px solid #ff7eb8;
@@ -122,7 +140,6 @@ button {
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
 }
-
 .optionBtn {
     width:90%;
     margin-top:10px;
@@ -133,9 +150,7 @@ button {
 }
 .optionBtn:hover { background:white; color:#ff3f9f; }
 
-/* --------------------------- */
 /* Profile Card */
-/* --------------------------- */
 #details.profile-card {
     display: none;
     flex-direction: column;
@@ -157,9 +172,6 @@ button {
     border:4px solid #fff;
 }
 
-/* --------------------------- */
-/* Modal Design */
-/* --------------------------- */
 .modal {
     display:none;
     position:fixed;
@@ -178,26 +190,35 @@ button {
     color:white;
 }
 .closeBtn { float:right; cursor:pointer; font-size:22px; }
-
-/* --------------------------- */
 </style>
 </head>
 <body>
 
-<!-- ⭐ HEADER SECTION WITH LOGO + FLAG ⭐ -->
+<!-- HEADER -->
 <div id="headerBar">
-    <img src="A modern tech-inspir.png" class="logoImg" alt="SafeWave Logo">
+    <img src="A modern tech-inspir.png" class="logoImg">
 
     <div class="headerText">
         <div id="teamName">🔱 Team - SAFEWAVE</div>
         <div id="buildBy">@build by Md Zihad</div>
     </div>
 
-    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg" 
-         class="flagImg" alt="Bangladesh Flag">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg" class="flagImg">
+    
+    <!-- 🔥 3 DOT MENU BUTTON (ADDED) -->
+    <div class="moreMenu" onclick="toggleMenu()">⋮</div>
+
 </div>
 
-<!-- MAIN LOCK BOX -->
+<!-- 🔥 MENU CONTENT (ADDED) -->
+<div class="menuBox" id="menuBox">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Emergency</a>
+    <a href="#">Logout</a>
+</div>
+
+<!-- LOCK BOX -->
 <div id="box">
     <h2>Enter Secure Code</h2>
     <input type="password" id="codeInput" placeholder="Enter code">
@@ -210,17 +231,18 @@ button {
 
 <!-- PROFILE CARD -->
 <div id="details" class="profile-card">
-<img class="profile-img" src="AirBrush_20251202235653[1].jpg">
-    <h3>Md ZihadUL Islam</h3>
-   <p><strong style="color: red;">Blood: A+</strong></p>
-    <p><strong>Phone:</strong> 01887039083</p>
-    <p><strong>Father:</strong> Md Jamal Uddin</p>
-    <p><strong>F-Phone:</strong> 01576760222</p>
-    <p><strong>Address:</strong> Kushtia, Bangladesh</p>
-    <p><strong>Email:</strong> mdzihadul0132@gmail.com</p>
+<img class="profile-img" src="">
+<h3 id="profileName"></h3>
+
+<p id="blood"></p>
+<p id="phone"></p>
+<p id="father"></p>
+<p id="fphone"></p>
+<p id="address"></p>
+<p id="email"></p>
 </div>
 
-<!-- POLICE MODAL -->
+<!-- MODALS -->
 <div id="policeModal" class="modal">
     <div class="modal-content">
         <span class="closeBtn" onclick="closeModal('policeModal')">&times;</span>
@@ -230,7 +252,6 @@ button {
     </div>
 </div>
 
-<!-- FIRE MODAL -->
 <div id="fireModal" class="modal">
     <div class="modal-content">
         <span class="closeBtn" onclick="closeModal('fireModal')">&times;</span>
@@ -241,7 +262,7 @@ button {
 </div>
 
 <script>
-// Multiple profiles
+/* PROFILE DATA */
 const profiles = {
     "12345": {
         name: "Md ZihadUL Islam",
@@ -265,23 +286,36 @@ const profiles = {
     }
 };
 
+/* 🔥 3 DOT MENU JS (ADDED) */
+function toggleMenu(){
+    let menu = document.getElementById("menuBox");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
 function checkCode(){
     const code = document.getElementById("codeInput").value;
-    
+
     if(profiles[code]){
         const p = profiles[code];
 
-document.querySelector(".profile-img").src = p.img;      
-        const info = document.querySelectorAll("#details p");
-        info[0].innerHTML = `<strong>Blood:</strong> ${p.blood}`;
-        info[1].innerHTML = `<strong>Phone:</strong> ${p.phone}`;
-        info[2].innerHTML = `<strong>Father:</strong> ${p.father}`;
-        info[3].innerHTML = `<strong>F-Phone:</strong> ${p.fphone}`;
-        info[4].innerHTML = `<strong>Address:</strong> ${p.address}`;
-        info[5].innerHTML = `<strong>Email:</strong> ${p.email}`;
+        document.querySelector(".profile-img").src = p.img;
+        document.getElementById("profileName").innerText = p.name;
+
+        document.getElementById("blood").innerHTML =
+            `<strong style="color:red; font-weight:bold;">Blood: ${p.blood}</strong>`;
+        document.getElementById("phone").innerHTML =
+            `<strong>Phone:</strong> ${p.phone}`;
+        document.getElementById("father").innerHTML =
+            `<strong>Father:</strong> ${p.father}`;
+        document.getElementById("fphone").innerHTML =
+            `<strong>F-Phone:</strong> ${p.fphone}`;
+        document.getElementById("address").innerHTML =
+            `<strong>Address:</strong> ${p.address}`;
+        document.getElementById("email").innerHTML =
+            `<strong>Email:</strong> ${p.email}`;
 
         document.getElementById("details").style.display="flex";
-    } 
+    }
     else {
         alert("❌ Wrong Code!");
     }
