@@ -70,7 +70,7 @@ body {
     margin-top:3px;
 }
 
-/* 🔥 3 DOT MENU CSS (ADDED) */
+/* 🔥 3 DOT MENU CSS */
 .moreMenu {
     font-size: 28px;
     color: white;
@@ -84,7 +84,7 @@ body {
     top: 80px;
     background: white;
     color: black;
-    width: 160px;
+    width: 180px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0,0,0,0.3);
     padding: 10px 0;
@@ -99,6 +99,24 @@ body {
 }
 .menuBox a:hover {
     background: #eee;
+}
+
+/* HELP BOX */
+.helpContent {
+    display:none;
+    background:white;
+    color:black;
+    padding:15px;
+    margin-top:10px;
+    border-radius:10px;
+    width:250px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    position:absolute;
+    right:185px;
+    top:80px;
+    z-index:99999;
+    font-size:13px;
+    line-height:1.5;
 }
 
 /* Box Section */
@@ -172,6 +190,7 @@ button {
     border:4px solid #fff;
 }
 
+/* Modal */
 .modal {
     display:none;
     position:fixed;
@@ -205,18 +224,57 @@ button {
 
     <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg" class="flagImg">
     
-    <!-- 🔥 3 DOT MENU BUTTON (ADDED) -->
+    <!-- 🔥 3 DOT BTN -->
     <div class="moreMenu" onclick="toggleMenu()">⋮</div>
 
 </div>
 
-<!-- 🔥 MENU CONTENT (ADDED) -->
+<!-- MENU BOX -->
 <div class="menuBox" id="menuBox">
     <a href="#">Home</a>
     <a href="#">About</a>
-    <a href="#">Emergency</a>
-    <a href="#">Help</a>
+    <a href="#" onclick="toggleHelp()">Help</a>
+    <a href="#">Self Defence Tips</a>
 </div>
+
+<!-- HELP CONTENT BOX -->
+<div id="helpBox" class="helpContent">
+কেউ ধর্ষণ, যৌন হয়রানি, শারীরিক/মৌখিক হেনস্তা—যে কোনো ধরণের লঙ্ঘনের শিকার হলে বাংলাদেশে নিচের ৫টি স্থানে সরাসরি অভিযোগ করা যায়।  
+<hr>
+
+<b>১. নিকটস্থ থানায়</b><br>
+✔ FIR/জিডি করা যায়<br>
+✔ মহিলা পুলিশ সহায়তা<br>
+✔ ফরেনসিক পরীক্ষা  
+<hr>
+
+<b>২. পুলিশ হেল্পলাইন ৯৯৯</b><br>
+✔ জরুরি সাহায্য  
+<hr>
+
+<b>৩. RAB হটলাইন</b><br>
+✔ ০১৭৭৭৭২০০২৯  
+<hr>
+
+<b>৪. নারী ও শিশু নির্যাতন দমন ট্রাইব্যুনাল</b><br>
+✔ ধর্ষণ/নির্যাতন মামলা  
+<hr>
+
+<b>৫. জাতীয় হেল্পলাইন ১০৯</b><br>
+✔ ২৪/৭ সাহায্য  
+✔ কাউন্সেলিং  
+<hr>
+
+<b>৬. বিশ্ববিদ্যালয়/অফিস অভিযোগ</b><br>
+✔ কমিটি/HR/Principal  
+<hr>
+
+<b>❗ জরুরি নির্দেশনা</b><br>
+✔ দেরি করা যাবে না  
+✔ প্রমাণ রাখবে  
+✔ বিপদে ৯৯৯/১০৯ এ কল করবে  
+</div>
+
 
 <!-- LOCK BOX -->
 <div id="box">
@@ -286,10 +344,16 @@ const profiles = {
     }
 };
 
-/* 🔥 3 DOT MENU JS (ADDED) */
+/* 3 DOT MENU */
 function toggleMenu(){
     let menu = document.getElementById("menuBox");
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+/* HELP SHOW/HIDE */
+function toggleHelp(){
+    let help = document.getElementById("helpBox");
+    help.style.display = help.style.display === "block" ? "none" : "block";
 }
 
 function checkCode(){
