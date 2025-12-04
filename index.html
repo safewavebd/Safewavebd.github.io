@@ -209,6 +209,25 @@ button {
     color:white;
 }
 .closeBtn { float:right; cursor:pointer; font-size:22px; }
+
+/* SELF DEFENCE PAGE */
+#selfDefencePage {
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:#000000ee;
+    color:white;
+    padding:20px;
+    overflow-y:auto;
+    animation: slideUp 0.8s ease;
+    z-index:999999;
+}
+
+@keyframes slideUp {
+    0% { transform: translateY(100%); opacity:0; }
+    100% { transform: translateY(0); opacity:1; }
+}
 </style>
 </head>
 <body>
@@ -234,7 +253,7 @@ button {
     <a href="#">Home</a>
     <a href="#">About</a>
     <a href="#" onclick="toggleHelp()">Help</a>
-    <a href="#">Self Defence Tips</a>
+    <a href="#" onclick="openSelfDefence()">Self Defence Tips</a>
 </div>
 
 <!-- HELP CONTENT BOX -->
@@ -319,6 +338,45 @@ button {
     </div>
 </div>
 
+<!-- ====================================================== -->
+<!-- 🔥 SELF DEFENCE FULL PAGE -->
+<!-- ====================================================== -->
+
+<div id="selfDefencePage">
+
+    <h2 style="text-align:center; margin-bottom:10px;">🛡 Self Defence Tips</h2>
+
+    <p>✔ জনসমাগমে সতর্ক থাকবে</p>
+    <p>✔ সাহায্যের জন্য জোরে চিৎকার করতে দ্বিধা করবে না</p>
+    <p>✔ রাস্তায় হাঁটার সময় মোবাইল কম ব্যবহার করবে</p>
+    <p>✔ বিপদে পড়লে ৯৯৯ ডায়াল করবে</p>
+
+    <img src="https://media.tenor.com/I-5lZ3Hkd50AAAAC/selfdefense-women.gif" style="width:100%; border-radius:10px; margin-top:15px;">
+
+    <p style="margin-top:15px;">
+        ✔ হাত ধরা হলে বাম–ডান দিকে জোরে টান দিয়ে মুক্ত হওয়ার চেষ্টা করবে  
+        <br><br>
+        ✔ পিছন থেকে কেউ ধরলে কনুই দিয়ে আঘাত করবে  
+        <br><br>
+        ✔ গলা বা চুল ধরে টান দিলে—হঠাৎ নিচু হয়ে বেরিয়ে আসবে  
+    </p>
+
+    <button onclick="closeSelfDefence()" style="
+        margin-top:20px;
+        width:100%;
+        padding:12px;
+        background:red;
+        border:none;
+        border-radius:10px;
+        color:white;
+        font-size:18px;
+        font-weight:bold;
+        cursor:pointer;
+    ">
+        🔙 Back
+    </button>
+</div>
+
 <script>
 /* PROFILE DATA */
 const profiles = {
@@ -356,6 +414,7 @@ function toggleHelp(){
     help.style.display = help.style.display === "block" ? "none" : "block";
 }
 
+/* UNLOCK PROFILE */
 function checkCode(){
     const code = document.getElementById("codeInput").value;
 
@@ -389,6 +448,15 @@ function showPoliceModal(){ document.getElementById("policeModal").style.display
 function showFireModal(){ document.getElementById("fireModal").style.display="block"; }
 function showComplainModal(){ alert("Complaint form coming soon!"); }
 function closeModal(id){ document.getElementById(id).style.display="none"; }
+
+/* SELF DEFENCE OPEN/CLOSE */
+function openSelfDefence(){
+    document.getElementById("selfDefencePage").style.display = "block";
+    toggleMenu();
+}
+function closeSelfDefence(){
+    document.getElementById("selfDefencePage").style.display = "none";
+}
 </script>
 
 </body>
