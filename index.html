@@ -210,7 +210,7 @@ button {
 
 <!-- PROFILE CARD -->
 <div id="details" class="profile-card">
-    <img src="AirBrush_20251202235653[1].jpg">
+<img class="profile-img" src="AirBrush_20251202235653[1].jpg">
     <h3>Md ZihadUL Islam</h3>
    <p><strong style="color: red;">Blood: A+</strong></p>
     <p><strong>Phone:</strong> 01887039083</p>
@@ -271,9 +271,7 @@ function checkCode(){
     if(profiles[code]){
         const p = profiles[code];
 
-        document.querySelector(".profile-img").src = p.img;
-        document.querySelector("#details h3").innerText = p.name;
-
+document.querySelector(".profile-img").src = p.img;      
         const info = document.querySelectorAll("#details p");
         info[0].innerHTML = `<strong>Blood:</strong> ${p.blood}`;
         info[1].innerHTML = `<strong>Phone:</strong> ${p.phone}`;
