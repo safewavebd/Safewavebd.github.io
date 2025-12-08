@@ -317,10 +317,33 @@ button {
 
 <!-- ✅ PRODUCT PAGE -->
 <div id="productPage" class="fullPage">
-    <h2 style="text-align:center;">🛍 Product Showcase</h2>
+    <h2 style="text-align:center; margin-bottom:20px;">🛍 Product Showcase</h2>
 
-    <img src="Safewave.png" style="width:100%; margin-top:15px; border-radius:10px;">
-    <img src="product2.jpg" style="width:100%; margin-top:15px; border-radius:10px;">
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:15px;">
+        <!-- Product 1 -->
+        <div style="background:white; border-radius:15px; padding:10px; text-align:center; color:black;">
+            <img src="Safewave.png" style="width:100%; border-radius:10px;">
+            <h3 style="margin:10px 0 5px 0;">SAFEWAVE Locker</h3>
+            <p style="font-weight:bold; color:red;">⭐ 2500৳</p>
+            <button style="padding:8px 12px; background:linear-gradient(45deg,#ff3f9f,#ff9acb,#7acbff); color:white; border:none; border-radius:8px; cursor:pointer;">Buy Now</button>
+        </div>
+
+        <!-- Product 2 -->
+        <div style="background:white; border-radius:15px; padding:10px; text-align:center; color:black;">
+            <img src="product2.jpg" style="width:100%; border-radius:10px;">
+            <h3 style="margin:10px 0 5px 0;">Portable Alarm</h3>
+            <p style="font-weight:bold; color:red;">⭐ 1200৳</p>
+            <button style="padding:8px 12px; background:linear-gradient(45deg,#ff3f9f,#ff9acb,#7acbff); color:white; border:none; border-radius:8px; cursor:pointer;">Buy Now</button>
+        </div>
+
+        <!-- Product 3 (Optional Extra) -->
+        <div style="background:white; border-radius:15px; padding:10px; text-align:center; color:black;">
+            <img src="product3.jpg" style="width:100%; border-radius:10px;">
+            <h3 style="margin:10px 0 5px 0;">Self Defence Spray</h3>
+            <p style="font-weight:bold; color:red;">⭐ 800৳</p>
+            <button style="padding:8px 12px; background:linear-gradient(45deg,#ff3f9f,#ff9acb,#7acbff); color:white; border:none; border-radius:8px; cursor:pointer;">Buy Now</button>
+        </div>
+    </div>
 
     <button onclick="closeProduct()" style="
         margin-top:20px; width:100%; padding:12px;
@@ -328,7 +351,6 @@ button {
         🔙 Back
     </button>
 </div>
-
 <script>
 /* PROFILE DATA */
 const profiles = {
