@@ -285,11 +285,120 @@ button {
 <!-- MODALS -->
 <div id="policeModal" class="modal">
     <div class="modal-content">
-        <span class="closeBtn" onclick="closeModal('policeModal')">&times;</span>
-        <h3>🚓 Police Station</h3>
-        <p>Kushtia Police Station</p>
-        <p>Phone: 071-1234567</p>
+       <select id="divisionSelect" onchange="loadDistricts()">
+  <option value="">Select Division</option>
+  <option value="Dhaka">Dhaka</option>
+  <option value="Khulna">Khulna</option>
+  <option value="Rajshahi">Rajshahi</option>
+  <option value="Chattogram">Chattogram</option>
+  <option value="Rangpur">Rangpur</option>
+  <option value="Barisal">Barisal</option>
+  <option value="Sylhet">Sylhet</option>
+  <option value="Mymensingh">Mymensingh</option>
+</select>
+
+<select id="districtSelect" onchange="loadStations()">
+  <option value="">Select District</option>
+</select>
+
+<div id="stationList"></div>
+
+<script>
+const data = {
+  "Dhaka": {
+    "Dhaka": [
+      {name: "Dhanmondi Police Station", phone: "02-9123456"},
+      {name: "Mirpur Police Station", phone: "02-9876543"},
+      {name: "Motijheel Police Station", phone: "02-9331234"}
+    ],
+    "Gazipur": [
+      {name: "Gazipur Sadar Police Station", phone: "0921-123456"}
+    ],
+    "Narayanganj": [
+      {name: "Narayanganj Police Station", phone: "0671-234567"}
+    ]
+  },
+  "Khulna": {
+    "Kushtia": [
+      {name: "Kushtia Police Station", phone: "071-1234567"},
+      {name: "Islamic University Police Station", phone: "071-7654321"}
+    ],
+    "Jhenaidah": [
+      {name: "Jhenaidah Police Station", phone: "0451-987654"}
+    ],
+    "Khulna": [
+      {name: "Khulna Sadar Police Station", phone: "041-123456"},
+      {name: "Sonadanga Police Station", phone: "041-654321"}
+    ]
+  },
+  "Rajshahi": {
+    "Rajshahi": [
+      {name: "Rajshahi Sadar Police Station", phone: "0721-123456"},
+      {name: "Motihar Police Station", phone: "0721-654321"}
+    ]
+  },
+  "Chattogram": {
+    "Chattogram": [
+      {name: "Kotwali Police Station", phone: "031-123456"},
+      {name: "Pahartali Police Station", phone: "031-654321"}
+    ],
+    "Cox's Bazar": [
+      {name: "Cox's Bazar Police Station", phone: "0341-123456"}
+    ]
+  },
+  "Rangpur": {
+    "Rangpur": [
+      {name: "Rangpur Police Station", phone: "0521-123456"}
+    ]
+  },
+  "Barisal": {
+    "Barisal": [
+      {name: "Barisal Police Station", phone: "0431-123456"}
+    ]
+  },
+  "Sylhet": {
+    "Sylhet": [
+      {name: "Sylhet Kotwali Police Station", phone: "0821-123456"}
+    ]
+  },
+  "Mymensingh": {
+    "Mymensingh": [
+      {name: "Mymensingh Police Station", phone: "091-123456"}
+    ]
+  }
+};
+
+function loadDistricts() {
+  const division = document.getElementById("divisionSelect").value;
+  const districtSelect = document.getElementById("districtSelect");
+  districtSelect.innerHTML = "<option value=''>Select District</option>";
+  if(data[division]) {
+    Object.keys(data[division]).forEach(district => {
+      districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
+    });
+  }
+}
+
+function loadStations() {
+  const division = document.getElementById("divisionSelect").value;
+  const district = document.getElementById("districtSelect").value;
+  const stationList = document.getElementById("stationList");
+  stationList.innerHTML = "";
+  if(data[division] && data[division][district]) {
+    data[division][district].forEach(station => {
+      stationList.innerHTML += `<p>${station.name} - <a href="tel:${station.phone}">${station.phone}</a></p>`;
+    });
+  }
+}
+</script>
+
     </div>
+
+
+
+
+
+    
 </div>
 
 <div id="fireModal" class="modal">
