@@ -409,31 +409,24 @@ function loadStations() {
         <p>Phone: 071-7654321</p>
     </div>
 </div>
->
 
-
-
-
-    
-
-<!-- SELF DEFENCE PAGE -->
-<div id="selfDefencePage" class="fullPage">
-    <h2 style="text-align:center;">🛡 Self Defence Tips</h2>
-    
 <!-- COMPLAIN MODAL -->
 <div id="complainModal" class="modal">
   <div class="modal-content">
     <span class="closeBtn" onclick="closeModal('complainModal')">&times;</span>
     <h3>📝 Submit Complaint Online</h3>
     
-    <!-- Complaint Text -->
-    <textarea id="complainText" placeholder="Write your complaint here..." rows="5" style="width:100%;"></textarea>
-    
-    <!-- Image Upload -->
-    <input type="file" id="complainImage" accept="image/*">
-    
-    <!-- Submit Button -->
-    <button onclick="submitComplaint()">Submit</button>
+    <!-- Complaint Form -->
+    <form id="complainForm">
+      <!-- Complaint Text -->
+      <textarea name="complaint" placeholder="Write your complaint here..." rows="5" style="width:100%;"></textarea>
+      
+      <!-- Image Upload -->
+      <input type="file" name="image" accept="image/*">
+      
+      <!-- Submit Button -->
+      <button type="submit">Submit</button>
+    </form>
   </div>
 </div>
 
@@ -445,40 +438,27 @@ function loadStations() {
     emailjs.init("iElnLb46i9uTp9sEl"); // ✅ তোমার Public Key
   })();
 
-  function submitComplaint() {
-    let text = document.getElementById("complainText").value;
-    let imageFile = document.getElementById("complainImage").files[0];
+  // Handle form submission
+  document.getElementById("complainForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    if(text.trim() === "") {
-        alert("⚠️ Please write your complaint before submitting.");
-        return;
-    }
-
-    // Prepare form data
-    let formData = new FormData();
-    formData.append("complaint", text);
-    if(imageFile) {
-        formData.append("image", imageFile);
-    }
-
-    // Send via EmailJS
-    emailjs.sendForm("service_nm9y9wq", "template_reuvv8q", formData)
+    emailjs.sendForm("service_nm9y9wq", "template_reuvv8q", this)
     .then(function(response) {
         alert("✅ Complaint submitted successfully!");
         closeModal('complainModal');
     }, function(error) {
         alert("❌ Failed to send complaint. Please try again.");
     });
-  }
+  });
 
   // Close modal function
   function closeModal(modalId) {
     document.getElementById(modalId).style.display = "none";
   }
 </script>
-
-
-</div>
+    </div>
+  
+    
 
 <!-- ✅ PRODUCT PAGE -->
 <div id="productPage" class="fullPage">
@@ -573,7 +553,7 @@ function checkCode(){
 /* MODALS */
 function showPoliceModal(){ document.getElementById("policeModal").style.display="block"; }
 function showFireModal(){ document.getElementById("fireModal").style.display="block"; }
-function showComplainModal(){ alert("Complaint section coming soon!"); }
+function showComplainModal(){ document.getElementById("complainModal").style.display="block"; }
 function closeModal(id){ document.getElementById(id).style.display="none"; }
 
 /* SELF DEFENCE PAGE */
