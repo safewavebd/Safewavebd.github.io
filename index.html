@@ -410,6 +410,71 @@ function loadStations() {
     </div>
 </div>
 
+<!-- COMPLAIN MODAL -->
+<div id="complainModal" class="modal">
+  <div class="modal-content">
+    <span class="closeBtn" onclick="closeModal('complainModal')">&times;</span>
+    <h3>📝 Submit Complaint Online</h3>
+    
+    <!-- Complaint Text -->
+    <textarea id="complainText" placeholder="Write your complaint here..." rows="5" style="width:100%;"></textarea>
+    
+    <!-- Image Upload -->
+    <input type="file" id="complainImage" accept="image/*">
+    
+    <!-- Submit Button -->
+    <button onclick="submitComplaint()">Submit</button>
+  </div>
+</div>
+
+<!-- EmailJS Script -->
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  // Initialize EmailJS with your Public Key
+  (function(){
+    emailjs.init("iElnLb46i9uTp9sEl"); // ✅ তোমার Public Key
+  })();
+
+  function submitComplaint() {
+    let text = document.getElementById("complainText").value;
+    let imageFile = document.getElementById("complainImage").files[0];
+
+    if(text.trim() === "") {
+        alert("⚠️ Please write your complaint before submitting.");
+        return;
+    }
+
+    // Prepare form data
+    let formData = new FormData();
+    formData.append("complaint", text);
+    if(imageFile) {
+        formData.append("image", imageFile);
+    }
+
+    // Send via EmailJS
+    emailjs.sendForm("service_nm9y9wq", "template_reuvv8q", formData)
+    .then(function(response) {
+        alert("✅ Complaint submitted successfully!");
+        closeModal('complainModal');
+    }, function(error) {
+        alert("❌ Failed to send complaint. Please try again.");
+    });
+  }
+
+  // Close modal function
+  function closeModal(modalId) {
+    document.getElementById(modalId).style.display = "none";
+  }
+</script>
+
+
+</div>
+
+
+
+
+    
+
 <!-- SELF DEFENCE PAGE -->
 <div id="selfDefencePage" class="fullPage">
     <h2 style="text-align:center;">🛡 Self Defence Tips</h2>
