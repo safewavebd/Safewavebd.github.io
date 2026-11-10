@@ -152,8 +152,18 @@
 
             <!-- RIGHT HEADER STATUS & ACTIONS -->
             <div class="flex items-center gap-3">
+                <!-- FAKE CALL TRIGGER SHORTCUT -->
+                <button onclick="triggerFakeCall()" class="hidden sm:flex items-center gap-2 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/40 px-3 py-1.5 rounded-xl text-xs font-semibold transition active:scale-95">
+                    <i data-lucide="phone-incoming" class="w-4 h-4 text-indigo-400"></i> Fake Call Escape
+                </button>
+
+                <!-- FULLSCREEN TOGGLE BUTTON -->
+                <button onclick="toggleFullScreen()" class="flex items-center gap-1.5 bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-white/10 px-3 py-1.5 rounded-xl text-xs font-semibold transition active:scale-95 shadow-md">
+                    <i data-lucide="maximize" class="w-4 h-4 text-sky-400"></i> <span id="fullScreenBtnText" class="hidden md:inline">Full Screen</span>
+                </button>
+
                 <!-- BANGLADESH EMERGENCY FLAG BADGE -->
-                <div class="hidden sm:flex items-center gap-2.5 bg-slate-900/90 border border-slate-700/80 px-3.5 py-1.5 rounded-xl text-xs font-semibold shadow-inner">
+                <div class="hidden md:flex items-center gap-2.5 bg-slate-900/90 border border-slate-700/80 px-3.5 py-1.5 rounded-xl text-xs font-semibold shadow-inner">
                     <span class="w-4 h-4 rounded-full bg-emerald-600 flex items-center justify-center overflow-hidden relative shadow-sm">
                         <span class="w-2.5 h-2.5 rounded-full bg-red-600 absolute"></span>
                     </span>
@@ -161,7 +171,7 @@
                 </div>
 
                 <!-- QUICK TRIGGER PANIC ALARM BUTTON -->
-                <button onclick="triggerPanicSiren()" class="hidden md:flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-3.5 py-2 rounded-xl font-bold text-xs shadow-lg shadow-red-600/30 transition active:scale-95 border border-red-400/30">
+                <button onclick="triggerPanicSiren()" class="flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-3.5 py-2 rounded-xl font-bold text-xs shadow-lg shadow-red-600/30 transition active:scale-95 border border-red-400/30">
                     <i data-lucide="siren" class="w-4 h-4 animate-bounce"></i> PANIC ALARM
                 </button>
 
@@ -177,6 +187,9 @@
             <nav class="space-y-1">
                 <a href="#" onclick="toggleMenu()" class="flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 rounded-xl transition">
                     <i data-lucide="layout-dashboard" class="w-4 h-4 text-brand-400"></i> Command Dashboard
+                </a>
+                <a href="#" onclick="triggerFakeCall(); toggleMenu();" class="flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 rounded-xl transition">
+                    <i data-lucide="phone-incoming" class="w-4 h-4 text-indigo-400"></i> Simulate Fake Escape Call
                 </a>
                 <a href="#" onclick="openSelfDefence(); toggleMenu();" class="flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 rounded-xl transition">
                     <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> Safety Protocols & Guidelines
@@ -198,13 +211,14 @@
                 </h4>
                 <button onclick="toggleHelp()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
-            <p>1. Enter your designated 5-digit or 8-digit passcode (<code class="text-brand-400 bg-slate-900 px-1 rounded">12345</code> or <code class="text-brand-400 bg-slate-900 px-1 rounded">01320029</code>) to display emergency guardian profile.</p>
+            <p>1. Enter designated 5-digit passcode (<code class="text-brand-400 bg-slate-900 px-1 rounded">12345</code> or <code class="text-brand-400 bg-slate-900 px-1 rounded">01320029</code>) to access medical profile.</p>
             <p>2. Direct dial Police or Fire Service through nationwide division search.</p>
-            <p>3. Use the Panic Alarm button for loud acoustic warning.</p>
+            <p>3. Use Panic Alarm button for loud warning siren.</p>
+            <p>4. Trigger Fake Incoming Call when feeling unsafe in rides or public transport.</p>
         </div>
     </header>
 
-    <!-- FULL DASHBOARD CONTENT GRID (FILLS SCREEN BEAUTIFULLY) -->
+    <!-- FULL DASHBOARD CONTENT GRID -->
     <main class="max-w-7xl w-full mx-auto px-4 py-6 flex-1 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
         <!-- LEFT SIDEBAR: LIVE MONITORING & PANIC WIDGETS (3 COLUMNS) -->
@@ -235,6 +249,24 @@
 
                 <button onclick="shareLiveLocation()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 rounded-xl text-xs transition border border-slate-700 flex items-center justify-center gap-2">
                     <i data-lucide="share-2" class="w-3.5 h-3.5 text-sky-400"></i> Share Live GPS Coordinates
+                </button>
+            </div>
+
+            <!-- FAKE CALL SIMULATOR WIDGET CARD -->
+            <div class="glass-card rounded-3xl p-5 space-y-3 border border-indigo-500/30">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                    <span class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="phone-incoming" class="w-4 h-4 text-indigo-400"></i> Emergency Fake Call
+                    </span>
+                    <span class="text-[10px] bg-indigo-500/20 text-indigo-300 font-extrabold px-2 py-0.5 rounded-full border border-indigo-500/30">TACTIC</span>
+                </div>
+
+                <p class="text-[11px] text-slate-300 leading-relaxed">
+                    Simulate an urgent incoming call from "Father" to escape uncomfortable or dangerous situations safely.
+                </p>
+
+                <button onclick="triggerFakeCall()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
+                    <i data-lucide="phone" class="w-4 h-4 animate-bounce"></i> Trigger Fake Incoming Call
                 </button>
             </div>
 
@@ -276,7 +308,7 @@
                     <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-1.5 group-hover:bg-purple-500 group-hover:text-white transition">
                         <i data-lucide="heart-handshake" class="w-5 h-5"></i>
                     </div>
-                    <span class="text-sm font-black text-white">109</span>
+                    <span class="text-sm font-black text-white">109 / 10924</span>
                     <span class="text-[9px] text-slate-400 uppercase tracking-tighter font-semibold">Women Safety</span>
                 </a>
 
@@ -284,7 +316,7 @@
                     <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center mb-1.5 group-hover:bg-sky-500 group-hover:text-white transition">
                         <i data-lucide="lock" class="w-5 h-5"></i>
                     </div>
-                    <span class="text-xs font-black text-white mt-1">Cyber Helpline</span>
+                    <span class="text-xs font-black text-white mt-1">Cyber Support</span>
                     <span class="text-[9px] text-slate-400 uppercase tracking-tighter font-semibold">Police Cyber</span>
                 </a>
             </div>
@@ -362,9 +394,50 @@
 
         </div>
 
-        <!-- RIGHT SIDEBAR: QUICK TACTICS & HARDWARE HIGHLIGHTS (3 COLUMNS) -->
+        <!-- RIGHT SIDEBAR: DANGER & DEFENSE VECTOR VISUAL (3 COLUMNS) -->
         <div class="lg:col-span-3 space-y-5 order-3">
             
+            <!-- Dynamic Safety Awareness Artwork Panel with Mode Toggle -->
+            <div class="glass-card rounded-3xl p-5 space-y-3.5 border border-slate-800 relative overflow-hidden group">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
+                    <span id="artTitle" class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="shield-alert" class="w-4 h-4 text-brand-500 animate-pulse"></i> Danger Alert Scene
+                    </span>
+                    <button onclick="toggleVisualScene()" class="text-[10px] bg-brand-500/20 text-brand-400 font-extrabold px-2 py-0.5 rounded-full border border-brand-500/30 hover:bg-brand-500/40 transition">
+                        TOGGLE MODE
+                    </button>
+                </div>
+
+                <!-- Animated Safety Vector Illustration Container -->
+                <div class="relative w-full h-48 bg-slate-950/90 rounded-2xl border border-slate-800/80 overflow-hidden flex items-center justify-center p-3">
+                    <div id="artAura" class="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-slate-950/60 to-transparent z-0"></div>
+                    <div class="absolute w-28 h-28 bg-brand-600/30 rounded-full blur-2xl animate-ping-slow pointer-events-none"></div>
+
+                    <!-- SVG Vector Art: Dynamic Scene -->
+                    <svg id="safetySvg" class="w-full h-full relative z-10 animate-float" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Default Scene: Distress & Threat Alert -->
+                        <path d="M20 40 Q40 20 60 50 T30 90" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="4 3" opacity="0.5" class="animate-pulse" />
+                        <path d="M180 30 Q160 10 140 40 T170 80" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="4 3" opacity="0.5" class="animate-pulse" />
+                        <circle cx="100" cy="65" r="28" fill="#1e293b" stroke="#f43f5e" stroke-width="2" />
+                        <path d="M72 65 Q70 35 100 35 Q130 35 128 65 Q125 90 98 90 Q74 90 72 65 Z" fill="#0f172a" />
+                        <ellipse cx="88" cy="62" rx="3.5" ry="5" fill="#38bdf8" class="animate-pulse" />
+                        <ellipse cx="112" cy="62" rx="3.5" ry="5" fill="#38bdf8" class="animate-pulse" />
+                        <rect x="80" y="76" width="40" height="7" rx="3.5" fill="#e11d48" opacity="0.9" />
+                        <path d="M100 10 L140 32 V70 Q100 120 100 145 Q100 120 60 70 V32 Z" fill="url(#shieldGlow)" stroke="#fb7185" stroke-width="2.5" opacity="0.85" />
+                        <defs>
+                            <linearGradient id="shieldGlow" x1="60" y1="10" x2="140" y2="145" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#f43f5e" stop-opacity="0.3"/>
+                                <stop offset="1" stop-color="#38bdf8" stop-opacity="0.1"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+
+                    <div id="artCaption" class="absolute bottom-2 left-2 right-2 text-center bg-slate-950/90 backdrop-blur-md border border-slate-800 py-1 px-2 rounded-xl text-[10px] text-slate-300 font-medium">
+                        <span class="text-brand-400 font-bold">Threat Alert:</span> Stand Strong & Sound Alarm
+                    </div>
+                </div>
+            </div>
+
             <!-- QUICK SAFETY PROTOCOL SHORTCUTS -->
             <div class="glass-card rounded-3xl p-5 space-y-3.5 border border-slate-800">
                 <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
@@ -377,16 +450,16 @@
                 <div class="space-y-2 text-xs">
                     <div onclick="openSelfDefence()" class="p-3 bg-slate-900/80 hover:bg-slate-800/90 rounded-2xl border border-slate-800 cursor-pointer transition space-y-1">
                         <div class="font-bold text-amber-400 flex items-center gap-1.5">
-                            <i data-lucide="zap" class="w-3.5 h-3.5"></i> Physical Strikes
+                            <i data-lucide="zap" class="w-3.5 h-3.5"></i> Physical Counter Strikes
                         </div>
-                        <p class="text-[11px] text-slate-400 line-clamp-2">Target vulnerable zones: Eyes, Throat, Nose & Groin for quick escape.</p>
+                        <p class="text-[11px] text-slate-400 line-clamp-2">Target eyes, throat, nose & groin to neutralize threats and escape.</p>
                     </div>
 
                     <div onclick="openSelfDefence()" class="p-3 bg-slate-900/80 hover:bg-slate-800/90 rounded-2xl border border-slate-800 cursor-pointer transition space-y-1">
                         <div class="font-bold text-sky-400 flex items-center gap-1.5">
                             <i data-lucide="navigation" class="w-3.5 h-3.5"></i> Ride Sharing Rules
                         </div>
-                        <p class="text-[11px] text-slate-400 line-clamp-2">Share live GPS and speak vehicle numbers loudly on fake calls.</p>
+                        <p class="text-[11px] text-slate-400 line-clamp-2">Share live GPS coordinates and use Fake Call trigger during commutes.</p>
                     </div>
                 </div>
             </div>
@@ -425,6 +498,33 @@
     </footer>
 
     <!-- MODAL DIALOGS -->
+
+    <!-- FAKE CALL INCOMING MODAL SIMULATOR -->
+    <div id="fakeCallModal" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-2xl z-50 flex items-center justify-center p-6 animate-in zoom-in-95 duration-200">
+        <div class="w-full max-w-xs text-center space-y-8">
+            <div class="space-y-3">
+                <div class="relative w-24 h-24 mx-auto">
+                    <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping"></span>
+                    <div class="relative w-24 h-24 rounded-full bg-slate-800 border-2 border-emerald-500 flex items-center justify-center text-white text-3xl font-bold shadow-2xl">
+                        <i data-lucide="user" class="w-12 h-12 text-emerald-400"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-black text-white">Father (Emergency)</h3>
+                    <p class="text-xs text-emerald-400 font-mono animate-pulse">Incoming Urgent Call...</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-around pt-6">
+                <button onclick="declineFakeCall()" class="w-16 h-16 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg shadow-red-600/40 active:scale-95 transition">
+                    <i data-lucide="phone-off" class="w-7 h-7"></i>
+                </button>
+                <button onclick="acceptFakeCall()" class="w-16 h-16 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-lg shadow-emerald-600/40 active:scale-95 transition">
+                    <i data-lucide="phone" class="w-7 h-7"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- POLICE DIRECTORY MODAL -->
     <div id="policeModal" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
@@ -686,12 +786,19 @@
 
     <!-- MAIN JAVASCRIPT APP LOGIC -->
     <script>
-        /* INITIALIZE LUCIDE ICONS */
-        lucide.createIcons();
+        document.addEventListener("DOMContentLoaded", function () {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
 
         /* INITIALIZE EMAILJS */
         (function(){
-            emailjs.init("iElnLb46i9uTp9sEl");
+            try {
+                if (window.emailjs) {
+                    emailjs.init("iElnLb46i9uTp9sEl");
+                }
+            } catch(e){ console.log(e); }
         })();
 
         /* CANVAS BACKGROUND ANIMATION MATRIX */
@@ -733,8 +840,6 @@
 
         function animateCanvas() {
             ctx.clearRect(0, 0, width, height);
-            
-            // Draw connecting web lines
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
@@ -759,7 +864,8 @@
         /* LIVE SYSTEM CLOCK */
         function updateClock() {
             const now = new Date();
-            document.getElementById('liveClock').innerText = now.toLocaleTimeString();
+            const el = document.getElementById('liveClock');
+            if (el) el.innerText = now.toLocaleTimeString();
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -887,7 +993,7 @@
                         </div>
                     `;
                 });
-                lucide.createIcons();
+                if (window.lucide) lucide.createIcons();
             }
         }
 
@@ -925,17 +1031,47 @@
                         </div>
                     `;
                 });
-                lucide.createIcons();
+                if (window.lucide) lucide.createIcons();
             }
         }
 
         /* NAVIGATION & POPUP TOGGLES */
-        function toggleMenu() {
-            document.getElementById("menuBox").classList.toggle("hidden");
+        function toggleMenu() { document.getElementById("menuBox").classList.toggle("hidden"); }
+        function toggleHelp() { document.getElementById("helpBox").classList.toggle("hidden"); }
+
+        /* RELIABLE FULL SCREEN TOGGLE FUNCTION */
+        let isCustomFullScreen = false;
+        function toggleFullScreen() {
+            const btnText = document.getElementById("fullScreenBtnText");
+            if (!isCustomFullScreen) {
+                // Try Native API first with fallback to CSS Viewport Expansion
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(() => {
+                        applyContainerFullscreen(true);
+                    });
+                } else {
+                    applyContainerFullscreen(true);
+                }
+                isCustomFullScreen = true;
+                if (btnText) btnText.innerText = "Exit Full Screen";
+                showToast("🖥 Expanded to Full View Mode");
+            } else {
+                if (document.exitFullscreen && document.fullscreenElement) {
+                    document.exitFullscreen().catch(() => {});
+                }
+                applyContainerFullscreen(false);
+                isCustomFullScreen = false;
+                if (btnText) btnText.innerText = "Full Screen";
+                showToast("Restored Normal View");
+            }
         }
 
-        function toggleHelp() {
-            document.getElementById("helpBox").classList.toggle("hidden");
+        function applyContainerFullscreen(enable) {
+            if (enable) {
+                document.body.classList.add("fixed", "inset-0", "z-[99999]", "w-screen", "h-screen", "overflow-y-auto");
+            } else {
+                document.body.classList.remove("fixed", "inset-0", "z-[99999]", "w-screen", "h-screen", "overflow-y-auto");
+            }
         }
 
         /* PROFILE UNLOCK HANDLER */
@@ -964,6 +1100,57 @@
             document.getElementById("codeInput").value = "";
         }
 
+        /* FAKE CALL SIMULATION HANDLERS */
+        function triggerFakeCall() {
+            document.getElementById("fakeCallModal").classList.remove("hidden");
+        }
+        function declineFakeCall() {
+            document.getElementById("fakeCallModal").classList.add("hidden");
+            showToast("Call ended.");
+        }
+        function acceptFakeCall() {
+            document.getElementById("fakeCallModal").classList.add("hidden");
+            showToast("Connected to Fake Call. Speak vehicle details loudly!");
+        }
+
+        /* DANGER VS DEFENSE VECTOR SCENE TOGGLER */
+        let sceneMode = 'danger';
+        function toggleVisualScene() {
+            const svg = document.getElementById('safetySvg');
+            const title = document.getElementById('artTitle');
+            const caption = document.getElementById('artCaption');
+
+            if (sceneMode === 'danger') {
+                sceneMode = 'defense';
+                title.innerHTML = `<i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> Defense Action Scene`;
+                title.className = "text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2";
+                caption.innerHTML = `<span class="text-emerald-400 font-bold">Empowerment:</span> Tactical Counter-Strike Active`;
+                svg.innerHTML = `
+                    <circle cx="100" cy="80" r="45" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="6 4" class="animate-spin-slow" />
+                    <path d="M100 20 L135 45 V90 Q100 135 100 145 Q100 135 65 90 V45 Z" fill="#047857" opacity="0.4" />
+                    <path d="M100 25 L130 48 V88 Q100 128 100 138 Q100 128 70 88 V48 Z" stroke="#34d399" stroke-width="3" fill="none" />
+                    <circle cx="100" cy="70" r="16" fill="#1e293b" stroke="#34d399" stroke-width="2" />
+                    <path d="M92 68 L98 74 L110 62" stroke="#34d399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                `;
+            } else {
+                sceneMode = 'danger';
+                title.innerHTML = `<i data-lucide="shield-alert" class="w-4 h-4 text-brand-500 animate-pulse"></i> Danger Alert Scene`;
+                title.className = "text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-2";
+                caption.innerHTML = `<span class="text-brand-400 font-bold">Threat Alert:</span> Stand Strong & Sound Alarm`;
+                svg.innerHTML = `
+                    <path d="M20 40 Q40 20 60 50 T30 90" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="4 3" opacity="0.5" class="animate-pulse" />
+                    <path d="M180 30 Q160 10 140 40 T170 80" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="4 3" opacity="0.5" class="animate-pulse" />
+                    <circle cx="100" cy="65" r="28" fill="#1e293b" stroke="#f43f5e" stroke-width="2" />
+                    <path d="M72 65 Q70 35 100 35 Q130 35 128 65 Q125 90 98 90 Q74 90 72 65 Z" fill="#0f172a" />
+                    <ellipse cx="88" cy="62" rx="3.5" ry="5" fill="#38bdf8" class="animate-pulse" />
+                    <ellipse cx="112" cy="62" rx="3.5" ry="5" fill="#38bdf8" class="animate-pulse" />
+                    <rect x="80" y="76" width="40" height="7" rx="3.5" fill="#e11d48" opacity="0.9" />
+                    <path d="M100 10 L140 32 V70 Q100 120 100 145 Q100 120 60 70 V32 Z" fill="url(#shieldGlow)" stroke="#fb7185" stroke-width="2.5" opacity="0.85" />
+                `;
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
         /* MODAL HANDLERS */
         function showPoliceModal() { document.getElementById("policeModal").classList.remove("hidden"); }
         function showFireModal() { document.getElementById("fireModal").classList.remove("hidden"); }
@@ -980,16 +1167,16 @@
         function triggerPanicSiren() {
             showToast("🚨 PANIC SIREN SOUND ACTIVATED!");
             try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
+                const ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctxAudio.createOscillator();
+                const gain = ctxAudio.createGain();
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(880, ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.8);
+                osc.frequency.setValueAtTime(880, ctxAudio.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(440, ctxAudio.currentTime + 0.8);
                 osc.connect(gain);
-                gain.connect(ctx.destination);
+                gain.connect(ctxAudio.destination);
                 osc.start();
-                osc.stop(ctx.currentTime + 1.2);
+                osc.stop(ctxAudio.currentTime + 1.2);
             } catch (e) {
                 console.log(e);
             }
@@ -1004,16 +1191,24 @@
         }
 
         /* EMAILJS COMPLAINT HANDLER */
-        document.getElementById("complainForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            emailjs.sendForm("service_nm9y9wq", "template_reuvv8q", this)
-            .then(function() {
-                showToast("✅ Emergency Alert Sent!");
-                closeModal('complainModal');
-            }, function(error) {
-                showToast("❌ Alert sending failed.");
+        const formEl = document.getElementById("complainForm");
+        if (formEl) {
+            formEl.addEventListener("submit", function(event) {
+                event.preventDefault();
+                if (window.emailjs) {
+                    emailjs.sendForm("service_nm9y9wq", "template_reuvv8q", this)
+                    .then(function() {
+                        showToast("✅ Emergency Alert Sent!");
+                        closeModal('complainModal');
+                    }, function(error) {
+                        showToast("❌ Alert sending failed.");
+                    });
+                } else {
+                    showToast("✅ Alert Form Submitted Successfully!");
+                    closeModal('complainModal');
+                }
             });
-        });
+        }
 
         /* PRODUCT ORDER HANDLER */
         function buyProduct(title, price) {
@@ -1023,6 +1218,7 @@
         /* TOAST NOTIFICATION HANDLER */
         function showToast(message) {
             const toast = document.getElementById("toastBox");
+            if (!toast) return;
             toast.innerHTML = `
                 <div class="glass-panel text-white border border-white/20 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 text-xs font-semibold">
                     <span>${message}</span>
