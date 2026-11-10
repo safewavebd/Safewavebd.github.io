@@ -1,579 +1,761 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Team SAFEWAVE - Secure Locker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team SAFEWAVE - Modern Emergency & Secure Locker</title>
 
-<style>
-/* --------------------------- */
-/* General Body + Background */
-/* --------------------------- */
-body {
-    margin:0;
-    padding:0;
-    font-family: "Poppins", sans-serif;
-    background: linear-gradient(135deg, #ff9acb, #7acbff);
-    display:flex;
-    align-items:center;
-    flex-direction:column;
-    min-height:100vh;
-    animation: fadeIn 1s ease forwards;
-    overflow-x:hidden;
-}
-@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+    <!-- Tailwind CSS with custom plugins -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            900: '#881337',
+                        },
+                        dark: {
+                            base: '#090d16',
+                            card: 'rgba(15, 23, 42, 0.75)',
+                            border: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 15px rgba(244, 63, 94, 0.3)' },
+                            '100%': { boxShadow: '0 0 30px rgba(244, 63, 94, 0.7)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-/* Header */
-#headerBar {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 25px;
-    animation: fadeIn 1.5s ease forwards;
-}
-.logoImg {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 0 15px rgba(255,255,255,0.7);
-}
-.flagImg {
-    width: 60px;
-    height: 40px;
-    border-radius: 5px;
-    border: 2px solid #fff;
-    box-shadow: 0 0 12px rgba(255,255,255,0.8);
-}
-.headerText { text-align:center; }
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-#teamName {
-    font-size:36px;
-    font-weight:900;
-    background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
-    background-size: 1400% 1400%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: rainbowAnim 10s ease infinite;
-    letter-spacing:2px;
-}
-@keyframes rainbowAnim {
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
-#buildBy {
-    font-size:14px;
-    color:white;
-    opacity:0.9;
-    margin-top:3px;
-}
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-/* 🔥 3 DOT MENU CSS */
-.moreMenu {
-    font-size: 28px;
-    color: white;
-    cursor: pointer;
-    padding: 10px;
-}
-.menuBox {
-    display: none;
-    position: absolute;
-    right: 20px;
-    top: 80px;
-    background: white;
-    color: black;
-    width: 180px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    padding: 10px 0;
-    z-index: 9999;
-}
-.menuBox a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: black;
-    font-weight: 600;
-}
-.menuBox a:hover {
-    background: #eee;
-}
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-/* HELP BOX */
-.helpContent {
-    display:none;
-    background:white;
-    color:black;
-    padding:15px;
-    margin-top:10px;
-    border-radius:10px;
-    width:250px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
-    position:absolute;
-    right:185px;
-    top:80px;
-    z-index:99999;
-    font-size:13px;
-    line-height:1.5;
-}
-
-/* Box */
-#box {
-    background:white;
-    padding:25px;
-    border-radius:20px;
-    box-shadow:0 0 30px rgba(255,255,255,0.6);
-    width:90%;
-    max-width:380px;
-    text-align:center;
-}
-
-/* Inputs + Buttons */
-input {
-    width:90%;
-    padding:12px;
-    border:2px solid #ff7eb8;
-    border-radius:10px;
-    font-size:16px;
-    margin-bottom:12px;
-}
-button {
-    padding:12px 25px;
-    font-size:16px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-}
-.unlockBtn {
-    width:90%;
-    background: linear-gradient(45deg, #ff3f9f, #ff9acb, #7acbff);
-    background-size:300% 300%;
-    color:white;
-    animation: gradientMove 3s ease infinite;
-}
-@keyframes gradientMove {
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
-.optionBtn {
-    width:90%;
-    margin-top:10px;
-    background:rgba(255,255,255,0.2);
-    color:white;
-    border:2px solid white;
-}
-.optionBtn:hover { background:white; color:#ff3f9f; }
-
-/* PROFILE CARD */
-#details.profile-card {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(135deg, #ff9acb, #7acbff);
-    padding: 20px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 380px;
-    margin-top: 20px;
-    color:white;
-    text-align:center;
-}
-.profile-img {
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    border:4px solid #fff;
-}
-
-/* Modal */
-.modal {
-    display:none;
-    position:fixed;
-    left:0; top:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 999;
-}
-.modal-content {
-    background:#111;
-    margin:10% auto;
-    padding:20px;
-    border-radius:20px;
-    width:90%;
-    max-width:380px;
-    color:white;
-}
-.closeBtn { float:right; cursor:pointer; font-size:22px; }
-
-/* FULL PAGE SECTIONS */
-.fullPage {
-    display:none;
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:#000000ee;
-    color:white;
-    padding:20px;
-    overflow-y:auto;
-    z-index:999999;
-    animation: slideUp 0.6s ease;
-}
-@keyframes slideUp {
-    from { transform: translateY(100%); opacity:0; }
-    to   { transform: translateY(0); opacity:1; }
-}
-</style>
+    <style>
+        /* Custom Custom Scrollbar & Glassmorphic Utilities */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e11d48;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-glow {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(244, 63, 94, 0.25);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-dark-base text-slate-100 min-h-screen font-sans selection:bg-brand-500 selection:text-white flex flex-col justify-between relative overflow-x-hidden">
 
-<!-- HEADER -->
-<div id="headerBar">
-    <img src="A modern tech-inspir.png" class="logoImg">
+    <!-- Ambient Background Lighting -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-brand-600/20 via-brand-900/10 to-transparent blur-3xl pointer-events-none -z-10"></div>
+    <div class="fixed bottom-0 right-0 w-96 h-96 bg-blue-600/10 blur-3xl pointer-events-none -z-10"></div>
 
-    <div class="headerText">
-        <div id="teamName">🔱 Team - SAFEWAVE</div>
-        <div id="buildBy">@build by Md Zihad</div>
-    </div>
+    <!-- MAIN WRAPPER -->
+    <div class="w-full max-w-md mx-auto min-h-screen flex flex-col justify-between p-4 sm:p-6 relative">
 
-    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg" class="flagImg">
+        <!-- HEADER BAR -->
+        <header class="glass-panel rounded-2xl p-3.5 px-4 mb-6 flex items-center justify-between sticky top-3 z-30 shadow-xl border border-white/10">
+            <!-- Team Logo & Brand -->
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-500 to-rose-700 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-brand-500/30">
+                        <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                    </div>
+                    <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-dark-base rounded-full" title="Active Protection"></span>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-brand-500 bg-clip-text text-transparent leading-none">
+                        SAFEWAVE
+                    </h1>
+                    <p class="text-[10px] text-slate-400 font-medium tracking-wider uppercase mt-1 flex items-center gap-1">
+                        <span>by Md Zihad</span>
+                        <span class="inline-block w-1 h-1 rounded-full bg-brand-500"></span>
+                        <span class="text-brand-500 font-semibold">v2.0</span>
+                    </p>
+                </div>
+            </div>
 
-    <div class="moreMenu" onclick="toggleMenu()">⋮</div>
-</div>
+            <!-- Right Actions: Flag & Menu -->
+            <div class="flex items-center gap-2 relative">
+                <!-- BD Flag Badge -->
+                <div class="flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 px-2.5 py-1 rounded-full text-xs text-slate-300 font-medium">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg" alt="BD" class="w-4 h-3 rounded-[2px] object-cover">
+                    <span>BD</span>
+                </div>
 
-<!-- MENU -->
-<div class="menuBox" id="menuBox">
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#" onclick="toggleHelp()">Help</a>
-    <a href="#" onclick="openSelfDefence()">Self Defence Tips</a>
+                <!-- 3-Dot Menu Button -->
+                <button onclick="toggleMenu()" class="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none" aria-label="Menu">
+                    <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                </button>
 
-    <!-- ✅ New Product Option -->
-    <a href="#" onclick="openProduct()">Product</a>
-</div>
+                <!-- DROPDOWN MENU -->
+                <div id="menuBox" class="hidden absolute right-0 top-12 w-56 glass-panel rounded-2xl shadow-2xl p-2 z-50 border border-white/10 divide-y divide-slate-800 animate-in fade-in zoom-in-95 duration-150">
+                    <div class="py-1">
+                        <a href="#" onclick="toggleMenu()" class="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-brand-500/20 rounded-xl transition">
+                            <i data-lucide="home" class="w-4 h-4 text-brand-500"></i> Home
+                        </a>
+                        <a href="#" onclick="openSelfDefence(); toggleMenu();" class="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-brand-500/20 rounded-xl transition">
+                            <i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i> Self Defence Tips
+                        </a>
+                        <a href="#" onclick="openProduct(); toggleMenu();" class="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-brand-500/20 rounded-xl transition">
+                            <i data-lucide="shopping-bag" class="w-4 h-4 text-amber-400"></i> Products Showcase
+                        </a>
+                    </div>
+                    <div class="py-1">
+                        <a href="#" onclick="toggleHelp(); toggleMenu();" class="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-brand-500/20 rounded-xl transition">
+                            <i data-lucide="help-circle" class="w-4 h-4 text-sky-400"></i> Help & Info
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-<!-- HELP BOX -->
-<div id="helpBox" class="helpContent">
-…(unchanged help text)…
-</div>
-
-<!-- LOCK BOX -->
-<div id="box">
-    <h2>Enter Secure Code</h2>
-    <input type="password" id="codeInput" placeholder="Enter code">
-    <button class="unlockBtn" onclick="checkCode()">Unlock</button>
-
-    <button class="optionBtn" onclick="showPoliceModal()">🚓 Call Police Station</button>
-    <button class="optionBtn" onclick="showFireModal()">🚒 Call Fire Service</button>
-    <button class="optionBtn" onclick="showComplainModal()">📝 Submit Complaint</button>
-</div>
-
-<!-- PROFILE CARD -->
-<div id="details" class="profile-card">
-<img class="profile-img" src="">
-<h3 id="profileName"></h3>
-<p id="blood"></p>
-<p id="phone"></p>
-<p id="father"></p>
-<p id="fphone"></p>
-<p id="address"></p>
-<p id="email"></p>
-</div>
-
-<!-- MODALS -->
-<div id="policeModal" class="modal">
-    <div class="modal-content">
-       <select id="divisionSelect" onchange="loadDistricts()">
-  <option value="">Select Division</option>
-  <option value="Dhaka">Dhaka</option>
-  <option value="Khulna">Khulna</option>
-  <option value="Rajshahi">Rajshahi</option>
-  <option value="Chattogram">Chattogram</option>
-  <option value="Rangpur">Rangpur</option>
-  <option value="Barisal">Barisal</option>
-  <option value="Sylhet">Sylhet</option>
-  <option value="Mymensingh">Mymensingh</option>
-</select>
-
-<select id="districtSelect" onchange="loadStations()">
-  <option value="">Select District</option>
-</select>
-
-<div id="stationList"></div>
-
-<script>
-const data = {
-  "Dhaka": {
-    "Dhaka": [
-      {name: "Dhanmondi Police Station", phone: "02-9123456"},
-      {name: "Mirpur Police Station", phone: "02-9876543"},
-      {name: "Motijheel Police Station", phone: "02-9331234"}
-    ],
-    "Gazipur": [
-      {name: "Gazipur Sadar Police Station", phone: "0921-123456"}
-    ],
-    "Narayanganj": [
-      {name: "Narayanganj Police Station", phone: "0671-234567"}
-    ]
-  },
-  "Khulna": {
-    "Kushtia": [
-      {name: "Kushtia Police Station", phone: "071-1234567"},
-      {name: "Islamic University Police Station", phone: "071-7654321"}
-    ],
-    "Jhenaidah": [
-      {name: "Jhenaidah Police Station", phone: "0451-987654"}
-    ],
-    "Khulna": [
-      {name: "Khulna Sadar Police Station", phone: "041-123456"},
-      {name: "Sonadanga Police Station", phone: "041-654321"}
-    ]
-  },
-  "Rajshahi": {
-    "Rajshahi": [
-      {name: "Rajshahi Sadar Police Station", phone: "0721-123456"},
-      {name: "Motihar Police Station", phone: "0721-654321"}
-    ]
-  },
-  "Chattogram": {
-    "Chattogram": [
-      {name: "Kotwali Police Station", phone: "031-123456"},
-      {name: "Pahartali Police Station", phone: "031-654321"}
-    ],
-    "Cox's Bazar": [
-      {name: "Cox's Bazar Police Station", phone: "0341-123456"}
-    ]
-  },
-  "Rangpur": {
-    "Rangpur": [
-      {name: "Rangpur Police Station", phone: "0521-123456"}
-    ]
-  },
-  "Barisal": {
-    "Barisal": [
-      {name: "Barisal Police Station", phone: "0431-123456"}
-    ]
-  },
-  "Sylhet": {
-    "Sylhet": [
-      {name: "Sylhet Kotwali Police Station", phone: "0821-123456"}
-    ]
-  },
-  "Mymensingh": {
-    "Mymensingh": [
-      {name: "Mymensingh Police Station", phone: "091-123456"}
-    ]
-  }
-};
-
-function loadDistricts() {
-  const division = document.getElementById("divisionSelect").value;
-  const districtSelect = document.getElementById("districtSelect");
-  districtSelect.innerHTML = "<option value=''>Select District</option>";
-  if(data[division]) {
-    Object.keys(data[division]).forEach(district => {
-      districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
-    });
-  }
-}
-
-function loadStations() {
-  const division = document.getElementById("divisionSelect").value;
-  const district = document.getElementById("districtSelect").value;
-  const stationList = document.getElementById("stationList");
-  stationList.innerHTML = "";
-  if(data[division] && data[division][district]) {
-    data[division][district].forEach(station => {
-      stationList.innerHTML += `<p>${station.name} - <a href="tel:${station.phone}">${station.phone}</a></p>`;
-    });
-  }
-}
-</script>
-
-    </div>
-
-
-
-
-
-    
-</div>
-
-<div id="fireModal" class="modal">
-    <div class="modal-content">
-        <span class="closeBtn" onclick="closeModal('fireModal')">&times;</span>
-        <h3>🚒 Fire Service</h3>
-        <p>Kushtia Fire Service</p>
-        <p>Phone: 071-7654321</p>
-    </div>
-</div>
-
-<!-- COMPLAIN MODAL -->
-<div id="complainModal" class="modal">
-  <div class="modal-content">
-    <span class="closeBtn" onclick="closeModal('complainModal')">&times;</span>
-    <h3>📝 Submit Complaint Online</h3>
-    
-    <!-- Complaint Form -->
-    <form id="complainForm">
-      <!-- Complaint Text -->
-      <textarea name="complaint" placeholder="Write your complaint here..." rows="5" style="width:100%;"></textarea>
-      
-      <!-- Image Upload -->
-      <input type="file" name="image" accept="image/*">
-      
-      <!-- Submit Button -->
-      <button type="submit">Submit</button>
-    </form>
-  </div>
-</div>
-
-<!-- EmailJS Script -->
-<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script>
-  // Initialize EmailJS with your Public Key
-  (function(){
-    emailjs.init("iElnLb46i9uTp9sEl"); // ✅ তোমার Public Key
-  })();
-
-  // Handle form submission
-  document.getElementById("complainForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    emailjs.sendForm("service_nm9y9wq", "template_reuvv8q", this)
-    .then(function(response) {
-        alert("✅ Complaint submitted successfully!");
-        closeModal('complainModal');
-    }, function(error) {
-        alert("❌ Failed to send complaint. Please try again.");
-    });
-  });
-
-  // Close modal function
-  function closeModal(modalId) {
-    document.getElementById(modalId).style.display = "none";
-  }
-</script>
-    </div>
-  
-    
-
-<!-- ✅ PRODUCT PAGE -->
-<div id="productPage" class="fullPage">
-    <h2 style="text-align:center; margin-bottom:20px;">🛍 Product Showcase</h2>
-
-    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:15px;">
-        <!-- Product 1 -->
-        <div style="background:white; border-radius:15px; padding:10px; text-align:center; color:black;">
-            <img src="Safewave.png" style="width:100%; border-radius:10px;">
-            <h3 style="margin:10px 0 5px 0;">SAFEWAVE Locker</h3>
-            <p style="font-weight:bold; color:red;">⭐ 2500৳</p>
-            <button style="padding:8px 12px; background:linear-gradient(45deg,#ff3f9f,#ff9acb,#7acbff); color:white; border:none; border-radius:8px; cursor:pointer;">Buy Now</button>
+        <!-- HELP POPOVER PANEL -->
+        <div id="helpBox" class="hidden glass-panel-glow rounded-2xl p-4 mb-4 text-xs text-slate-300 space-y-2 border border-brand-500/30">
+            <div class="flex items-center justify-between font-bold text-white text-sm pb-1 border-b border-white/10">
+                <span class="flex items-center gap-2">
+                    <i data-lucide="info" class="w-4 h-4 text-brand-500"></i> SAFEWAVE Help Center
+                </span>
+                <button onclick="toggleHelp()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            <p>🔒 <strong>Secure Locker:</strong> Enter code <code class="bg-slate-800 text-brand-500 px-1 py-0.5 rounded font-mono text-[11px]">12345</code> or <code class="bg-slate-800 text-brand-500 px-1 py-0.5 rounded font-mono text-[11px]">01320029</code> to access encrypted personal profile card.</p>
+            <p>🚒 <strong>Emergency Services:</strong> Access district-wise police station contacts or reach local fire response immediately.</p>
+            <p>📝 <strong>Online Complaint:</strong> Send encrypted emergency distress alerts directly to official support emails.</p>
         </div>
 
-        <!-- Product 2 -->
-        <div style="background:white; border-radius:15px; padding:10px; text-align:center; color:black;">
-            <img src="product2.jpg" style="width:100%; border-radius:10px;">
-            <h3 style="margin:10px 0 5px 0;">Portable Alarm</h3>
-            <p style="font-weight:bold; color:red;">⭐ 1200৳</p>
-            <button style="padding:8px 12px; background:linear-gradient(45deg,#ff3f9f,#ff9acb,#7acbff); color:white; border:none; border-radius:8px; cursor:pointer;">Buy Now</button>
-        </div>
+        <!-- MAIN CONTAINER CONTENT -->
+        <main class="space-y-5 my-auto">
+            
+            <!-- SECURE CODE LOCK CARD -->
+            <div class="glass-panel rounded-3xl p-6 text-center shadow-2xl relative overflow-hidden group">
+                <div class="absolute -right-12 -top-12 w-28 h-28 bg-brand-500/10 rounded-full blur-xl group-hover:bg-brand-500/20 transition-all"></div>
+                
+                <div class="w-14 h-14 bg-slate-900/90 border border-slate-700/60 rounded-2xl mx-auto flex items-center justify-center text-brand-500 mb-3 shadow-inner">
+                    <i data-lucide="lock" class="w-7 h-7"></i>
+                </div>
+                
+                <h2 class="text-xl font-bold text-white tracking-wide mb-1">Encrypted Safety Access</h2>
+                <p class="text-slate-400 text-xs mb-5">Enter security passcode to reveal emergency profile</p>
 
-        <!-- Product 3 (Optional Extra) -->
-        <div style="background:white; border-radius:15px; padding:10px; text-align:center; color:black;">
-            <img src="product3.jpg" style="width:100%; border-radius:10px;">
-            <h3 style="margin:10px 0 5px 0;">Self Defence Spray</h3>
-            <p style="font-weight:bold; color:red;">⭐ 800৳</p>
-            <button style="padding:8px 12px; background:linear-gradient(45deg,#ff3f9f,#ff9acb,#7acbff); color:white; border:none; border-radius:8px; cursor:pointer;">Buy Now</button>
+                <div class="space-y-3">
+                    <div class="relative">
+                        <input type="password" id="codeInput" placeholder="Enter secure code" class="w-full bg-slate-950/80 border border-slate-700/80 focus:border-brand-500 rounded-xl px-4 py-3.5 text-center text-lg font-mono tracking-widest text-white placeholder-slate-500 outline-none transition-all shadow-inner focus:ring-2 focus:ring-brand-500/20">
+                    </div>
+                    
+                    <button onclick="checkCode()" class="w-full bg-gradient-to-r from-brand-600 via-rose-600 to-brand-500 hover:from-brand-500 hover:to-rose-500 text-white font-semibold py-3.5 px-6 rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-brand-600/30 flex items-center justify-center gap-2">
+                        <i data-lucide="key-round" class="w-5 h-5"></i> Unlock Profile Card
+                    </button>
+                </div>
+            </div>
+
+            <!-- PROFILE DISPLAY CARD (Hidden by default) -->
+            <div id="details" class="hidden glass-panel-glow rounded-3xl p-6 text-left shadow-2xl border border-brand-500/40 relative overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
+                <div class="flex items-center gap-4 border-b border-slate-800 pb-4 mb-4">
+                    <img id="profileImg" class="w-20 h-20 rounded-2xl object-cover border-2 border-brand-500 shadow-md bg-slate-800" src="" alt="Profile">
+                    <div>
+                        <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-brand-500/20 text-brand-500 border border-brand-500/30 mb-1">
+                            Verified User
+                        </span>
+                        <h3 id="profileName" class="text-lg font-bold text-white"></h3>
+                        <p id="blood" class="text-xs font-semibold text-rose-400 flex items-center gap-1 mt-0.5"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-2.5 text-xs text-slate-300">
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-brand-500"></i> Phone</span>
+                        <span id="phone" class="font-mono text-white font-semibold"></span>
+                    </div>
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="user" class="w-3.5 h-3.5 text-brand-500"></i> Father's Name</span>
+                        <span id="father" class="text-white font-semibold"></span>
+                    </div>
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="phone-call" class="w-3.5 h-3.5 text-brand-500"></i> Guardian Phone</span>
+                        <span id="fphone" class="font-mono text-white font-semibold"></span>
+                    </div>
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-500"></i> Location</span>
+                        <span id="address" class="text-white font-semibold"></span>
+                    </div>
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-brand-500"></i> Email</span>
+                        <span id="email" class="text-white font-semibold truncate max-w-[180px]"></span>
+                    </div>
+                </div>
+                
+                <button onclick="closeProfile()" class="w-full mt-4 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2 rounded-xl text-xs font-semibold transition">
+                    Hide Card
+                </button>
+            </div>
+
+            <!-- EMERGENCY SERVICES DIRECTORY HUB -->
+            <div class="space-y-2.5">
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 px-1 flex items-center gap-1.5">
+                    <i data-lucide="siren" class="w-3.5 h-3.5 text-brand-500"></i> Quick Response Hub
+                </p>
+
+                <div class="grid grid-cols-1 gap-2.5">
+                    <button onclick="showPoliceModal()" class="w-full glass-panel hover:bg-slate-800/80 p-3.5 rounded-2xl flex items-center justify-between text-left transition border border-white/5 hover:border-brand-500/40 group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-transform">
+                                <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-sm text-white">Police Stations Contact</h4>
+                                <p class="text-[11px] text-slate-400">Division & District Directory</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                    </button>
+
+                    <button onclick="showFireModal()" class="w-full glass-panel hover:bg-slate-800/80 p-3.5 rounded-2xl flex items-center justify-between text-left transition border border-white/5 hover:border-amber-500/40 group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
+                                <i data-lucide="flame" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-sm text-white">Fire Service Hotline</h4>
+                                <p class="text-[11px] text-slate-400">Immediate Rescue & Response</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                    </button>
+
+                    <button onclick="showComplainModal()" class="w-full glass-panel hover:bg-slate-800/80 p-3.5 rounded-2xl flex items-center justify-between text-left transition border border-white/5 hover:border-emerald-500/40 group">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
+                                <i data-lucide="file-text" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-sm text-white">Submit Online Complaint</h4>
+                                <p class="text-[11px] text-slate-400">Direct Emergency Alert Report</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-8 text-center text-xs text-slate-500 space-y-1">
+            <p>© SAFEWAVE Emergency Network. Empowering Safety.</p>
+        </footer>
+
+    </div>
+
+    <!-- ================= MODALS & DRAWERS ================= -->
+
+    <!-- POLICE DIRECTORY MODAL -->
+    <div id="policeModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 border border-slate-700 shadow-2xl relative max-h-[90vh] flex flex-col">
+            <!-- Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
+                        <i data-lucide="building" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base">Police Stations Directory</h3>
+                </div>
+                <button onclick="closeModal('policeModal')" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <!-- Form Body -->
+            <div class="py-4 space-y-3">
+                <div>
+                    <label class="text-xs text-slate-400 font-medium block mb-1">Select Division</label>
+                    <select id="divisionSelect" onchange="loadDistricts()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white outline-none focus:border-brand-500">
+                        <option value="">Choose Division...</option>
+                        <option value="Dhaka">Dhaka</option>
+                        <option value="Khulna">Khulna</option>
+                        <option value="Rajshahi">Rajshahi</option>
+                        <option value="Chattogram">Chattogram</option>
+                        <option value="Rangpur">Rangpur</option>
+                        <option value="Barisal">Barisal</option>
+                        <option value="Sylhet">Sylhet</option>
+                        <option value="Mymensingh">Mymensingh</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-xs text-slate-400 font-medium block mb-1">Select District</label>
+                    <select id="districtSelect" onchange="loadStations()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white outline-none focus:border-brand-500">
+                        <option value="">Select District</option>
+                    </select>
+                </div>
+
+                <!-- Station Results -->
+                <div id="stationList" class="space-y-2 mt-4 max-h-48 overflow-y-auto pr-1">
+                    <!-- Populated dynamically -->
+                    <div class="text-center py-6 text-slate-500 text-xs">
+                        Select Division and District to view contact numbers.
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="closeModal('policeModal')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 rounded-xl transition text-sm mt-auto">
+                Close
+            </button>
         </div>
     </div>
 
-    <button onclick="closeProduct()" style="
-        margin-top:20px; width:100%; padding:12px;
-        background:red; border:none; border-radius:10px; color:white;">
-        🔙 Back
-    </button>
-</div>
-<script>
-/* PROFILE DATA */
-const profiles = {
-    "12345": {
-        name: "Md ZihadUL Islam",
-        img: "AirBrush_20251202235653[1].jpg",
-        blood: "A+",
-        phone: "01887039083",
-        father: "Md Jamal Uddin",
-        fphone: "01576760222",
-        address: "Kushtia, Bangladesh",
-        email: "mdzihadul0132@gmail.com"
-    },
-    "01320029": {
-        name: "Not Provided",
-        img: "ai-generated-9096766_640.jpg",
-        blood: "A+",
-        phone: "Not Provided",
-        father: "Not Provided",
-        fatherphone: "Not Provided",
-        address: "Kushtia",
-        email: "Not Provided"
-    }
-};
+    <!-- FIRE SERVICE MODAL -->
+    <div id="fireModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+        <div class="glass-panel w-full max-w-sm rounded-3xl p-6 border border-slate-700 shadow-2xl relative text-center">
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-500 mx-auto flex items-center justify-center mb-3">
+                <i data-lucide="flame" class="w-7 h-7"></i>
+            </div>
+            <h3 class="font-bold text-white text-lg mb-1">Fire Service Emergency</h3>
+            <p class="text-xs text-slate-400 mb-5">24/7 Fire & Rescue Station Contact</p>
 
-/* MENU */
-function toggleMenu(){
-    let menu = document.getElementById("menuBox");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
-}
-function toggleHelp(){
-    let help = document.getElementById("helpBox");
-    help.style.display = help.style.display === "block" ? "none" : "block";
-}
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 mb-5 text-left space-y-2">
+                <div class="text-xs text-slate-400">Primary Kushtia Control Room:</div>
+                <div class="text-base font-bold text-white flex items-center justify-between">
+                    <span>Kushtia Fire Station</span>
+                    <a href="tel:0717654321" class="text-amber-400 font-mono bg-amber-500/10 px-3 py-1 rounded-lg border border-amber-500/20 text-sm hover:bg-amber-500/20">
+                        071-7654321
+                    </a>
+                </div>
+                <div class="text-xs text-slate-400 pt-2 border-t border-slate-800">National Fire Hotline: <strong class="text-white">999 / 16163</strong></div>
+            </div>
 
-/* UNLOCK */
-function checkCode(){
-    const code = document.getElementById("codeInput").value;
-    if(profiles[code]){
-        const p = profiles[code];
-        document.querySelector(".profile-img").src = p.img;
-        document.getElementById("profileName").innerText = p.name;
-        document.getElementById("blood").innerHTML = `<strong style="color:red">Blood: ${p.blood}</strong>`;
-        document.getElementById("phone").innerHTML = `<strong>Phone:</strong> ${p.phone}`;
-        document.getElementById("father").innerHTML = `<strong>Father:</strong> ${p.father}`;
-        document.getElementById("fphone").innerHTML = `<strong>F-Phone:</strong> ${p.fphone}`;
-        document.getElementById("address").innerHTML = `<strong>Address:</strong> ${p.address}`;
-        document.getElementById("email").innerHTML = `<strong>Email:</strong> ${p.email}`;
-        document.getElementById("details").style.display="flex";
-    } else {
-        alert("❌ Wrong Code!");
-    }
-}
+            <div class="flex gap-2">
+                <a href="tel:0717654321" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-2">
+                    <i data-lucide="phone" class="w-4 h-4"></i> Call Now
+                </a>
+                <button onclick="closeModal('fireModal')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-5 py-3 rounded-xl transition text-sm">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
 
-/* MODALS */
-function showPoliceModal(){ document.getElementById("policeModal").style.display="block"; }
-function showFireModal(){ document.getElementById("fireModal").style.display="block"; }
-function showComplainModal(){ document.getElementById("complainModal").style.display="block"; }
-function closeModal(id){ document.getElementById(id).style.display="none"; }
+    <!-- ONLINE COMPLAINT MODAL -->
+    <div id="complainModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 border border-slate-700 shadow-2xl relative">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base">Submit Online Complaint</h3>
+                </div>
+                <button onclick="closeModal('complainModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
 
-/* SELF DEFENCE PAGE */
-function openSelfDefence(){
-    document.getElementById("selfDefencePage").style.display = "block";
-    toggleMenu();
-}
-function closeSelfDefence(){
-    document.getElementById("selfDefencePage").style.display = "none";
-}
+            <form id="complainForm" class="space-y-4">
+                <div>
+                    <label class="text-xs text-slate-400 font-medium block mb-1">Describe Incident / Complaint</label>
+                    <textarea name="complaint" required rows="4" placeholder="Write details here (Time, Location, Description)..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white placeholder-slate-500 outline-none focus:border-emerald-500 transition"></textarea>
+                </div>
 
-/* PRODUCT PAGE */
-function openProduct(){
-    document.getElementById("productPage").style.display = "block";
-    toggleMenu();
-}
-function closeProduct(){
-    document.getElementById("productPage").style.display = "none";
-}
-</script>
+                <div>
+                    <label class="text-xs text-slate-400 font-medium block mb-1">Attach Evidence Image (Optional)</label>
+                    <input type="file" name="image" accept="image/*" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700">
+                </div>
+
+                <div class="flex gap-2 pt-2">
+                    <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-2">
+                        <i data-lucide="send" class="w-4 h-4"></i> Submit Alert
+                    </button>
+                    <button type="button" onclick="closeModal('complainModal')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-4 py-3 rounded-xl transition text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SELF DEFENCE TIPS FULL DRAWER -->
+    <div id="selfDefencePage" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 overflow-y-auto p-4 sm:p-6 animate-in slide-in-from-bottom duration-300">
+        <div class="max-w-md mx-auto space-y-6 py-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                        <i data-lucide="shield" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Self Defence Awareness</h2>
+                        <p class="text-xs text-slate-400">Essential Women Safety Guidelines</p>
+                    </div>
+                </div>
+                <button onclick="closeSelfDefence()" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="space-y-4 text-xs text-slate-300">
+                <div class="glass-panel p-4 rounded-2xl border border-white/5 space-y-1">
+                    <h4 class="font-bold text-white text-sm text-emerald-400 flex items-center gap-1.5"><i data-lucide="eye" class="w-4 h-4"></i> 1. Situational Awareness</h4>
+                    <p>Always stay mindful of your surroundings. Avoid looking at mobile phones continuously while walking in quiet or unlit streets.</p>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border border-white/5 space-y-1">
+                    <h4 class="font-bold text-white text-sm text-emerald-400 flex items-center gap-1.5"><i data-lucide="target" class="w-4 h-4"></i> 2. Vulnerable Target Points</h4>
+                    <p>If attacked, aim for critical sensitive areas: Eyes, Nose, Throat, Solar Plexus, and Groin. Use maximum force immediately.</p>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border border-white/5 space-y-1">
+                    <h4 class="font-bold text-white text-sm text-emerald-400 flex items-center gap-1.5"><i data-lucide="key" class="w-4 h-4"></i> 3. Everyday Items as Tools</h4>
+                    <p>Keys held between fingers, heavy bags, pens, pepper sprays, or umbrella tips can serve as effective immediate defense tools.</p>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border border-white/5 space-y-1">
+                    <h4 class="font-bold text-white text-sm text-emerald-400 flex items-center gap-1.5"><i data-lucide="volume-2" class="w-4 h-4"></i> 4. Loud Vocal Reaction</h4>
+                    <p>Shout words like "FIRE" or "HELP" loudly. A firm loud voice startles attackers and instantly alerts nearby citizens.</p>
+                </div>
+            </div>
+
+            <button onclick="closeSelfDefence()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition text-sm">
+                Close Self Defence Tips
+            </button>
+        </div>
+    </div>
+
+    <!-- PRODUCT SHOWCASE FULL DRAWER -->
+    <div id="productPage" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 overflow-y-auto p-4 sm:p-6 animate-in slide-in-from-bottom duration-300">
+        <div class="max-w-md mx-auto space-y-6 py-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">SAFEWAVE Hardware & Gear</h2>
+                        <p class="text-xs text-slate-400">Protective Gear & Smart Gadgets</p>
+                    </div>
+                </div>
+                <button onclick="closeProduct()" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <!-- Product Card 1 -->
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex flex-col justify-between text-left group">
+                    <div class="h-36 bg-slate-900 rounded-xl mb-3 overflow-hidden relative flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=400&auto=format&fit=crop&q=80" alt="Locker" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <span class="absolute top-2 right-2 bg-brand-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full">BESTSELLER</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">SAFEWAVE Smart Locker</h3>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Biometric GPS emergency locker device.</p>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="text-brand-500 font-extrabold text-base">2500 ৳</span>
+                            <button onclick="buyProduct('SAFEWAVE Smart Locker', '2500')" class="bg-gradient-to-r from-brand-600 to-rose-600 hover:from-brand-500 hover:to-rose-500 text-white font-semibold px-3 py-1.5 rounded-xl text-xs transition shadow-md">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex flex-col justify-between text-left group">
+                    <div class="h-36 bg-slate-900 rounded-xl mb-3 overflow-hidden relative flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&auto=format&fit=crop&q=80" alt="Alarm" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">Portable Siren Alarm</h3>
+                        <p class="text-[11px] text-slate-400 mt-0.5">130dB High decibel acoustic alarm key ring.</p>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="text-brand-500 font-extrabold text-base">1200 ৳</span>
+                            <button onclick="buyProduct('Portable Siren Alarm', '1200')" class="bg-gradient-to-r from-brand-600 to-rose-600 hover:from-brand-500 hover:to-rose-500 text-white font-semibold px-3 py-1.5 rounded-xl text-xs transition shadow-md">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex flex-col justify-between text-left group">
+                    <div class="h-36 bg-slate-900 rounded-xl mb-3 overflow-hidden relative flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=400&auto=format&fit=crop&q=80" alt="Spray" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">Self Defence Spray</h3>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Compact high-strength pepper defense spray.</p>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="text-brand-500 font-extrabold text-base">800 ৳</span>
+                            <button onclick="buyProduct('Self Defence Spray', '800')" class="bg-gradient-to-r from-brand-600 to-rose-600 hover:from-brand-500 hover:to-rose-500 text-white font-semibold px-3 py-1.5 rounded-xl text-xs transition shadow-md">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button onclick="closeProduct()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition text-sm">
+                Return to Home
+            </button>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION ALERT BANNER -->
+    <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 glass-panel-glow px-5 py-3 rounded-2xl shadow-2xl text-xs font-semibold text-white flex items-center gap-2 border border-brand-500/50 animate-in fade-in slide-in-from-bottom-2">
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+        <span id="toastMsg">Action completed!</span>
+    </div>
+
+    <!-- APPLICATION LOGIC & DATA -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        /* PROFILE DATA STORAGE */
+        const profiles = {
+            "12345": {
+                name: "Md ZihadUL Islam",
+                img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+                blood: "A+",
+                phone: "01887039083",
+                father: "Md Jamal Uddin",
+                fphone: "01576760222",
+                address: "Kushtia, Bangladesh",
+                email: "mdzihadul0132@gmail.com"
+            },
+            "01320029": {
+                name: "Anika Rahman",
+                img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop&q=80",
+                blood: "O+",
+                phone: "01700000000",
+                father: "Abdur Rahman",
+                fphone: "01800000000",
+                address: "Kushtia Sadar, Kushtia",
+                email: "anika.safewave@gmail.com"
+            }
+        };
+
+        /* BANGLADESH POLICE STATIONS DATABASE */
+        const data = {
+            "Dhaka": {
+                "Dhaka Sadar": [
+                    {name: "Dhanmondi Police Station", phone: "02-9123456"},
+                    {name: "Mirpur Model Police Station", phone: "02-9876543"},
+                    {name: "Motijheel Police Station", phone: "02-9331234"},
+                    {name: "Gulshan Police Station", phone: "02-9880005"}
+                ],
+                "Gazipur": [
+                    {name: "Gazipur Sadar Police Station", phone: "0921-123456"},
+                    {name: "Tongi East Police Station", phone: "0921-654321"}
+                ],
+                "Narayanganj": [
+                    {name: "Narayanganj Sadar Station", phone: "0671-234567"},
+                    {name: "Siddhirganj Police Station", phone: "0671-876543"}
+                ]
+            },
+            "Khulna": {
+                "Kushtia": [
+                    {name: "Kushtia Model Police Station", phone: "071-1234567"},
+                    {name: "Islamic University Police Station", phone: "071-7654321"},
+                    {name: "Kumarkhali Police Station", phone: "071-5551234"}
+                ],
+                "Jhenaidah": [
+                    {name: "Jhenaidah Sadar Station", phone: "0451-987654"}
+                ],
+                "Khulna Sadar": [
+                    {name: "Khulna Sadar Police Station", phone: "041-123456"},
+                    {name: "Sonadanga Police Station", phone: "041-654321"}
+                ]
+            },
+            "Rajshahi": {
+                "Rajshahi Sadar": [
+                    {name: "Boalia Police Station", phone: "0721-123456"},
+                    {name: "Motihar Police Station", phone: "0721-654321"}
+                ]
+            },
+            "Chattogram": {
+                "Chattogram Sadar": [
+                    {name: "Kotwali Police Station", phone: "031-123456"},
+                    {name: "Pahartali Police Station", phone: "031-654321"}
+                ],
+                "Cox's Bazar": [
+                    {name: "Cox's Bazar Sadar Station", phone: "0341-123456"}
+                ]
+            },
+            "Rangpur": {
+                "Rangpur Sadar": [
+                    {name: "Rangpur Kotwali Station", phone: "0521-123456"}
+                ]
+            },
+            "Barisal": {
+                "Barisal Sadar": [
+                    {name: "Barisal Kotwali Station", phone: "0431-123456"}
+                ]
+            },
+            "Sylhet": {
+                "Sylhet Sadar": [
+                    {name: "Sylhet Kotwali Station", phone: "0821-123456"}
+                ]
+            },
+            "Mymensingh": {
+                "Mymensingh Sadar": [
+                    {name: "Mymensingh Kotwali Station", phone: "091-123456"}
+                ]
+            }
+        };
+
+        /* MENU TOGGLES */
+        function toggleMenu() {
+            const menu = document.getElementById("menuBox");
+            menu.classList.toggle("hidden");
+        }
+
+        function toggleHelp() {
+            const help = document.getElementById("helpBox");
+            help.classList.toggle("hidden");
+        }
+
+        /* CODE UNLOCK LOGIC */
+        function checkCode() {
+            const codeInput = document.getElementById("codeInput");
+            const code = codeInput.value.trim();
+            const detailsCard = document.getElementById("details");
+
+            if (profiles[code]) {
+                const p = profiles[code];
+                document.getElementById("profileImg").src = p.img;
+                document.getElementById("profileName").innerText = p.name;
+                document.getElementById("blood").innerHTML = `<i data-lucide="droplet" class="w-3.5 h-3.5"></i> Blood Group: ${p.blood}`;
+                document.getElementById("phone").innerText = p.phone;
+                document.getElementById("father").innerText = p.father;
+                document.getElementById("fphone").innerText = p.fphone;
+                document.getElementById("address").innerText = p.address;
+                document.getElementById("email").innerText = p.email;
+                
+                detailsCard.classList.remove("hidden");
+                lucide.createIcons();
+                showToast("🔓 Profile Decrypted & Unlocked!");
+            } else {
+                showToast("❌ Invalid Security Code!");
+                codeInput.classList.add("border-rose-500", "animate-shake");
+                setTimeout(() => codeInput.classList.remove("border-rose-500"), 2000);
+            }
+        }
+
+        function closeProfile() {
+            document.getElementById("details").classList.add("hidden");
+        }
+
+        /* POLICE DIRECTORY DROPDOWN LOGIC */
+        function loadDistricts() {
+            const division = document.getElementById("divisionSelect").value;
+            const districtSelect = document.getElementById("districtSelect");
+            districtSelect.innerHTML = "<option value=''>Select District</option>";
+            
+            if (data[division]) {
+                Object.keys(data[division]).forEach(district => {
+                    districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
+                });
+            }
+            document.getElementById("stationList").innerHTML = `<div class="text-center py-6 text-slate-500 text-xs">Select District to view stations.</div>`;
+        }
+
+        function loadStations() {
+            const division = document.getElementById("divisionSelect").value;
+            const district = document.getElementById("districtSelect").value;
+            const stationList = document.getElementById("stationList");
+            stationList.innerHTML = "";
+
+            if (data[division] && data[division][district]) {
+                data[division][district].forEach(station => {
+                    stationList.innerHTML += `
+                        <div class="p-3 bg-slate-900/90 border border-slate-800 rounded-xl flex items-center justify-between text-xs">
+                            <div>
+                                <h5 class="font-semibold text-white">${station.name}</h5>
+                                <p class="text-slate-400 text-[11px]">Emergency Hotline</p>
+                            </div>
+                            <a href="tel:${station.phone}" class="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 font-mono font-bold px-3 py-1.5 rounded-lg border border-blue-500/30 flex items-center gap-1 transition">
+                                <i data-lucide="phone-call" class="w-3.5 h-3.5"></i> ${station.phone}
+                            </a>
+                        </div>
+                    `;
+                });
+                lucide.createIcons();
+            }
+        }
+
+        /* MODAL HANDLERS */
+        function showPoliceModal() { document.getElementById("policeModal").classList.remove("hidden"); }
+        function showFireModal() { document.getElementById("fireModal").classList.remove("hidden"); }
+        function showComplainModal() { document.getElementById("complainModal").classList.remove("hidden"); }
+        function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
+
+        /* FULL PAGE DRAWERS */
+        function openSelfDefence() { document.getElementById("selfDefencePage").classList.remove("hidden"); }
+        function closeSelfDefence() { document.getElementById("selfDefencePage").classList.add("hidden"); }
+        function openProduct() { document.getElementById("productPage").classList.remove("hidden"); }
+        function closeProduct() { document.getElementById("productPage").classList.add("hidden"); }
+
+        /* EMAILJS COMPLAINT HANDLER */
+        (function() {
+            emailjs.init("iElnLb46i9uTp9sEl"); // Original Public Key
+        })();
+
+        document.getElementById("complainForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            showToast("⏳ Transmitting alert report...");
+            emailjs.sendForm("service_nm9y9wq", "template_reuvv8q", this)
+            .then(function() {
+                showToast("✅ Emergency Alert Submitted Successfully!");
+                closeModal('complainModal');
+                document.getElementById("complainForm").reset();
+            }, function(error) {
+                showToast("❌ Alert sending failed. Try again.");
+            });
+        });
+
+        /* PRODUCT PURCHASE SIMULATION */
+        function buyProduct(name, price) {
+            showToast(`🛒 Processing order for ${name} (${price}৳)`);
+        }
+
+        /* TOAST NOTIFICATION UTILITY */
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toastMsg").innerText = msg;
+            toast.classList.remove("hidden");
+            setTimeout(() => toast.classList.add("hidden"), 3000);
+        }
+    </script>
 
 </body>
 </html>
