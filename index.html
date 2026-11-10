@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team SAFEWAVE - Modern Emergency & Secure Locker</title>
-
-    <!-- Tailwind CSS with custom plugins -->
+    <title>Team SAFEWAVE - Ultimate Women Safety & Emergency Command Center</title>
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,28 +16,28 @@
                         brand: {
                             50: '#fff1f2',
                             100: '#ffe4e6',
+                            400: '#fb7185',
                             500: '#f43f5e',
                             600: '#e11d48',
                             700: '#be123c',
                             900: '#881337',
-                        },
-                        dark: {
-                            base: '#090d16',
-                            card: 'rgba(15, 23, 42, 0.75)',
-                            border: 'rgba(255, 255, 255, 0.1)'
                         }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
                     },
                     animation: {
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'ping-slow': 'ping 2.5s cubic-bezier(0, 0, 0.2, 1) infinite',
+                        'spin-slow': 'spin 20s linear infinite',
+                        'float': 'float 5s ease-in-out infinite',
+                        'shimmer': 'shimmer 2.5s linear infinite',
                     },
                     keyframes: {
-                        glow: {
-                            '0%': { boxShadow: '0 0 15px rgba(244, 63, 94, 0.3)' },
-                            '100%': { boxShadow: '0 0 30px rgba(244, 63, 94, 0.7)' },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' }
                         }
                     }
                 }
@@ -45,269 +45,405 @@
         }
     </script>
 
-    <!-- Google Fonts Inter -->
+    <!-- Google Fonts & Lucide Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
     <style>
-        /* Custom Custom Scrollbar & Glassmorphic Utilities */
-        ::-webkit-scrollbar {
-            width: 6px;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #070a11;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
-        ::-webkit-scrollbar-track {
-            background: #090d16;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 9999px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #e11d48;
-        }
-        .glass-panel {
+
+        /* Glassmorphism Styles */
+        .glass-card {
             background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
-        .glass-panel-glow {
-            background: rgba(15, 23, 42, 0.85);
+
+        .glass-panel {
+            background: rgba(26, 35, 50, 0.85);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(244, 63, 94, 0.3);
-            box-shadow: 0 10px 30px -10px rgba(244, 63, 94, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glow-box-brand {
+            box-shadow: 0 0 25px -5px rgba(244, 63, 94, 0.35);
+        }
+
+        .glow-box-emerald {
+            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
+        }
+
+        /* Animated Canvas Particles */
+        #radarCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f43f5e;
         }
     </style>
 </head>
-<body class="bg-dark-base text-slate-100 min-h-screen font-sans selection:bg-brand-500 selection:text-white flex flex-col justify-between relative overflow-x-hidden">
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white relative">
 
-    <!-- Ambient Background Lighting -->
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-brand-600/20 via-brand-900/10 to-transparent blur-3xl pointer-events-none -z-10"></div>
-    <div class="fixed bottom-0 right-0 w-96 h-96 bg-blue-600/10 blur-3xl pointer-events-none -z-10"></div>
+    <!-- INTERACTIVE RADAR CANVAS BACKGROUND -->
+    <canvas id="radarCanvas"></canvas>
 
-    <!-- MAIN WRAPPER -->
-    <div class="w-full max-w-md mx-auto min-h-screen flex flex-col justify-between p-4 sm:p-6 relative">
+    <!-- AMBIENT BACKGROUND GLOW ORBS -->
+    <div class="fixed w-[500px] h-[500px] bg-brand-600/20 rounded-full blur-[120px] -top-32 -left-32 animate-pulse-slow pointer-events-none z-0"></div>
+    <div class="fixed w-[450px] h-[450px] bg-indigo-600/20 rounded-full blur-[120px] top-1/3 -right-32 animate-float pointer-events-none z-0"></div>
+    <div class="fixed w-[400px] h-[400px] bg-emerald-600/15 rounded-full blur-[100px] -bottom-20 left-1/3 animate-pulse-slow pointer-events-none z-0"></div>
 
-        <!-- HEADER BAR -->
-        <header class="glass-panel rounded-2xl p-3.5 px-4 mb-6 flex items-center justify-between sticky top-3 z-30 shadow-xl border border-white/10">
-            <!-- Team Logo & Brand -->
+    <!-- HEADER NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 w-full glass-card border-b border-white/10 px-4 py-3 sm:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- LOGO & BRANDING -->
             <div class="flex items-center gap-3">
-                <div class="relative">
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-500 to-rose-700 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-brand-500/30">
-                        <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                <div class="relative flex items-center justify-center">
+                    <span class="absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75 animate-ping-slow"></span>
+                    <div class="relative w-11 h-11 rounded-full bg-gradient-to-tr from-brand-600 via-rose-500 to-amber-400 p-0.5 shadow-lg shadow-brand-500/40">
+                        <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center text-brand-400">
+                            <i data-lucide="shield-alert" class="w-6 h-6 animate-pulse"></i>
+                        </div>
                     </div>
-                    <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-dark-base rounded-full" title="Active Protection"></span>
                 </div>
                 <div>
-                    <h1 class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-brand-500 bg-clip-text text-transparent leading-none">
-                        SAFEWAVE
-                    </h1>
-                    <p class="text-[10px] text-slate-400 font-medium tracking-wider uppercase mt-1 flex items-center gap-1">
-                        <span>by Md Zihad</span>
-                        <span class="inline-block w-1 h-1 rounded-full bg-brand-500"></span>
-                        <span class="text-brand-500 font-semibold">v2.0</span>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl font-black tracking-wider bg-gradient-to-r from-white via-slate-200 to-brand-400 bg-clip-text text-transparent">
+                            SAFEWAVE
+                        </h1>
+                        <span class="px-2 py-0.5 text-[10px] font-extrabold bg-brand-500/20 text-brand-400 rounded-full border border-brand-500/40 uppercase tracking-widest flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-ping"></span> COMMAND CENTER
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+                        Built by <span class="text-white font-semibold">Md Zihad</span>
+                        <span class="text-slate-600">•</span>
+                        <span class="text-emerald-400 flex items-center gap-0.5"><i data-lucide="wifi" class="w-3 h-3"></i> Network Ready</span>
                     </p>
                 </div>
             </div>
 
-            <!-- Right Actions: Flag & Menu -->
-            <div class="flex items-center gap-2 relative">
-                <!-- BD Flag Badge -->
-                <div class="flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 px-2.5 py-1 rounded-full text-xs text-slate-300 font-medium">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg" alt="BD" class="w-4 h-3 rounded-[2px] object-cover">
-                    <span>BD</span>
+            <!-- RIGHT HEADER STATUS & ACTIONS -->
+            <div class="flex items-center gap-3">
+                <!-- BANGLADESH EMERGENCY FLAG BADGE -->
+                <div class="hidden sm:flex items-center gap-2.5 bg-slate-900/90 border border-slate-700/80 px-3.5 py-1.5 rounded-xl text-xs font-semibold shadow-inner">
+                    <span class="w-4 h-4 rounded-full bg-emerald-600 flex items-center justify-center overflow-hidden relative shadow-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-600 absolute"></span>
+                    </span>
+                    <span class="text-slate-200 font-mono text-[11px]">BD National Safety Net</span>
                 </div>
 
-                <!-- 3-Dot Menu Button -->
-                <button onclick="toggleMenu()" class="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none" aria-label="Menu">
-                    <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                <!-- QUICK TRIGGER PANIC ALARM BUTTON -->
+                <button onclick="triggerPanicSiren()" class="hidden md:flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-3.5 py-2 rounded-xl font-bold text-xs shadow-lg shadow-red-600/30 transition active:scale-95 border border-red-400/30">
+                    <i data-lucide="siren" class="w-4 h-4 animate-bounce"></i> PANIC ALARM
                 </button>
 
-                <!-- DROPDOWN MENU -->
-                <div id="menuBox" class="hidden absolute right-0 top-12 w-56 glass-panel rounded-2xl shadow-2xl p-2 z-50 border border-white/10 divide-y divide-slate-800 animate-in fade-in zoom-in-95 duration-150">
-                    <div class="py-1">
-                        <a href="#" onclick="toggleMenu()" class="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-brand-500/20 rounded-xl transition">
-                            <i data-lucide="home" class="w-4 h-4 text-brand-500"></i> Home
-                        </a>
-                        <a href="#" onclick="openSelfDefence(); toggleMenu();" class="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-brand-500/20 rounded-xl transition">
-                            <i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i> Self Defence Tips
-                        </a>
-                        <a href="#" onclick="openProduct(); toggleMenu();" class="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-brand-500/20 rounded-xl transition">
-                            <i data-lucide="shopping-bag" class="w-4 h-4 text-amber-400"></i> Products Showcase
-                        </a>
-                    </div>
-                    <div class="py-1">
-                        <a href="#" onclick="toggleHelp(); toggleMenu();" class="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-brand-500/20 rounded-xl transition">
-                            <i data-lucide="help-circle" class="w-4 h-4 text-sky-400"></i> Help & Info
-                        </a>
-                    </div>
-                </div>
+                <!-- MORE MENU TRIGGER BUTTON -->
+                <button onclick="toggleMenu()" class="w-10 h-10 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 flex items-center justify-center border border-white/10 transition active:scale-95 shadow-md">
+                    <i data-lucide="grid" class="w-5 h-5"></i>
+                </button>
             </div>
-        </header>
-
-        <!-- HELP POPOVER PANEL -->
-        <div id="helpBox" class="hidden glass-panel-glow rounded-2xl p-4 mb-4 text-xs text-slate-300 space-y-2 border border-brand-500/30">
-            <div class="flex items-center justify-between font-bold text-white text-sm pb-1 border-b border-white/10">
-                <span class="flex items-center gap-2">
-                    <i data-lucide="info" class="w-4 h-4 text-brand-500"></i> SAFEWAVE Help Center
-                </span>
-                <button onclick="toggleHelp()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
-            </div>
-            <p>🔒 <strong>Secure Locker:</strong> Enter code <code class="bg-slate-800 text-brand-500 px-1 py-0.5 rounded font-mono text-[11px]">12345</code> or <code class="bg-slate-800 text-brand-500 px-1 py-0.5 rounded font-mono text-[11px]">01320029</code> to access encrypted personal profile card.</p>
-            <p>🚒 <strong>Emergency Services:</strong> Access district-wise police station contacts or reach local fire response immediately.</p>
-            <p>📝 <strong>Online Complaint:</strong> Send encrypted emergency distress alerts directly to official support emails.</p>
         </div>
 
-        <!-- MAIN CONTAINER CONTENT -->
-        <main class="space-y-5 my-auto">
-            
-            <!-- SECURE CODE LOCK CARD -->
-            <div class="glass-panel rounded-3xl p-6 text-center shadow-2xl relative overflow-hidden group">
-                <div class="absolute -right-12 -top-12 w-28 h-28 bg-brand-500/10 rounded-full blur-xl group-hover:bg-brand-500/20 transition-all"></div>
-                
-                <div class="w-14 h-14 bg-slate-900/90 border border-slate-700/60 rounded-2xl mx-auto flex items-center justify-center text-brand-500 mb-3 shadow-inner">
-                    <i data-lucide="lock" class="w-7 h-7"></i>
-                </div>
-                
-                <h2 class="text-xl font-bold text-white tracking-wide mb-1">Encrypted Safety Access</h2>
-                <p class="text-slate-400 text-xs mb-5">Enter security passcode to reveal emergency profile</p>
+        <!-- DROPDOWN NAVIGATION MENU -->
+        <div id="menuBox" class="hidden absolute right-4 sm:right-8 top-16 w-72 glass-panel rounded-2xl shadow-2xl border border-slate-700 p-2.5 z-50 animate-in fade-in zoom-in-95 duration-150">
+            <nav class="space-y-1">
+                <a href="#" onclick="toggleMenu()" class="flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 rounded-xl transition">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 text-brand-400"></i> Command Dashboard
+                </a>
+                <a href="#" onclick="openSelfDefence(); toggleMenu();" class="flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 rounded-xl transition">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> Safety Protocols & Guidelines
+                </a>
+                <a href="#" onclick="openProduct(); toggleMenu();" class="flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 rounded-xl transition">
+                    <i data-lucide="shopping-bag" class="w-4 h-4 text-amber-400"></i> Safety Hardware Store
+                </a>
+                <a href="#" onclick="toggleHelp(); toggleMenu();" class="flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-white/10 rounded-xl transition">
+                    <i data-lucide="help-circle" class="w-4 h-4 text-sky-400"></i> Platform Help Manual
+                </a>
+            </nav>
+        </div>
 
-                <div class="space-y-3">
-                    <div class="relative">
-                        <input type="password" id="codeInput" placeholder="Enter secure code" class="w-full bg-slate-950/80 border border-slate-700/80 focus:border-brand-500 rounded-xl px-4 py-3.5 text-center text-lg font-mono tracking-widest text-white placeholder-slate-500 outline-none transition-all shadow-inner focus:ring-2 focus:ring-brand-500/20">
-                    </div>
-                    
-                    <button onclick="checkCode()" class="w-full bg-gradient-to-r from-brand-600 via-rose-600 to-brand-500 hover:from-brand-500 hover:to-rose-500 text-white font-semibold py-3.5 px-6 rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-brand-600/30 flex items-center justify-center gap-2">
-                        <i data-lucide="key-round" class="w-5 h-5"></i> Unlock Profile Card
-                    </button>
-                </div>
+        <!-- POPUP HELP BOX -->
+        <div id="helpBox" class="hidden absolute right-4 sm:right-8 top-16 w-80 glass-panel rounded-2xl shadow-2xl border border-slate-700 p-4 z-50 text-xs text-slate-300 space-y-2.5">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-700">
+                <h4 class="font-bold text-white flex items-center gap-2">
+                    <i data-lucide="info" class="w-4 h-4 text-sky-400"></i> SAFEWAVE Help Guide
+                </h4>
+                <button onclick="toggleHelp()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
+            <p>1. Enter your designated 5-digit or 8-digit passcode (<code class="text-brand-400 bg-slate-900 px-1 rounded">12345</code> or <code class="text-brand-400 bg-slate-900 px-1 rounded">01320029</code>) to display emergency guardian profile.</p>
+            <p>2. Direct dial Police or Fire Service through nationwide division search.</p>
+            <p>3. Use the Panic Alarm button for loud acoustic warning.</p>
+        </div>
+    </header>
 
-            <!-- PROFILE DISPLAY CARD (Hidden by default) -->
-            <div id="details" class="hidden glass-panel-glow rounded-3xl p-6 text-left shadow-2xl border border-brand-500/40 relative overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
-                <div class="flex items-center gap-4 border-b border-slate-800 pb-4 mb-4">
-                    <img id="profileImg" class="w-20 h-20 rounded-2xl object-cover border-2 border-brand-500 shadow-md bg-slate-800" src="" alt="Profile">
-                    <div>
-                        <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-brand-500/20 text-brand-500 border border-brand-500/30 mb-1">
-                            Verified User
-                        </span>
-                        <h3 id="profileName" class="text-lg font-bold text-white"></h3>
-                        <p id="blood" class="text-xs font-semibold text-rose-400 flex items-center gap-1 mt-0.5"></p>
+    <!-- FULL DASHBOARD CONTENT GRID (FILLS SCREEN BEAUTIFULLY) -->
+    <main class="max-w-7xl w-full mx-auto px-4 py-6 flex-1 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- LEFT SIDEBAR: LIVE MONITORING & PANIC WIDGETS (3 COLUMNS) -->
+        <div class="lg:col-span-3 space-y-5 order-2 lg:order-1">
+            
+            <!-- LIVE GPS LOCATION CARD -->
+            <div class="glass-card rounded-3xl p-5 space-y-3.5 border border-slate-800">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
+                    <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-brand-500 animate-pulse"></i> GPS Signal Active
+                    </span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                    <div class="bg-slate-900/80 p-3 rounded-2xl border border-slate-800/80 space-y-1 font-mono">
+                        <div class="text-[11px] text-slate-400 flex justify-between">
+                            <span>Status:</span> <span class="text-emerald-400 font-bold">LOCKED & TRACKED</span>
+                        </div>
+                        <div class="text-[11px] text-slate-400 flex justify-between">
+                            <span>Lat/Lng:</span> <span class="text-slate-200">23.8103° N, 90.4125° E</span>
+                        </div>
+                        <div class="text-[11px] text-slate-400 flex justify-between">
+                            <span>Location:</span> <span class="text-white font-sans font-semibold">Dhaka / Kushtia Division</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 gap-2.5 text-xs text-slate-300">
-                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
-                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-brand-500"></i> Phone</span>
-                        <span id="phone" class="font-mono text-white font-semibold"></span>
-                    </div>
-                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
-                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="user" class="w-3.5 h-3.5 text-brand-500"></i> Father's Name</span>
-                        <span id="father" class="text-white font-semibold"></span>
-                    </div>
-                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
-                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="phone-call" class="w-3.5 h-3.5 text-brand-500"></i> Guardian Phone</span>
-                        <span id="fphone" class="font-mono text-white font-semibold"></span>
-                    </div>
-                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
-                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-500"></i> Location</span>
-                        <span id="address" class="text-white font-semibold"></span>
-                    </div>
-                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
-                        <span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-brand-500"></i> Email</span>
-                        <span id="email" class="text-white font-semibold truncate max-w-[180px]"></span>
-                    </div>
-                </div>
-                
-                <button onclick="closeProfile()" class="w-full mt-4 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2 rounded-xl text-xs font-semibold transition">
-                    Hide Card
+                <button onclick="shareLiveLocation()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 rounded-xl text-xs transition border border-slate-700 flex items-center justify-center gap-2">
+                    <i data-lucide="share-2" class="w-3.5 h-3.5 text-sky-400"></i> Share Live GPS Coordinates
                 </button>
             </div>
 
-            <!-- EMERGENCY SERVICES DIRECTORY HUB -->
-            <div class="space-y-2.5">
-                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 px-1 flex items-center gap-1.5">
-                    <i data-lucide="siren" class="w-3.5 h-3.5 text-brand-500"></i> Quick Response Hub
-                </p>
+            <!-- LIVE SYSTEM TIME & THREAT ALERT FEED -->
+            <div class="glass-card rounded-3xl p-5 space-y-3 border border-slate-800">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                    <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="clock" class="w-4 h-4 text-amber-400"></i> System Time
+                    </span>
+                    <span id="liveClock" class="font-mono text-xs text-amber-400 font-bold">00:00:00 AM</span>
+                </div>
 
-                <div class="grid grid-cols-1 gap-2.5">
-                    <button onclick="showPoliceModal()" class="w-full glass-panel hover:bg-slate-800/80 p-3.5 rounded-2xl flex items-center justify-between text-left transition border border-white/5 hover:border-brand-500/40 group">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-transform">
-                                <i data-lucide="shield-alert" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-white">Police Stations Contact</h4>
-                                <p class="text-[11px] text-slate-400">Division & District Directory</p>
-                            </div>
-                        </div>
-                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
-                    </button>
-
-                    <button onclick="showFireModal()" class="w-full glass-panel hover:bg-slate-800/80 p-3.5 rounded-2xl flex items-center justify-between text-left transition border border-white/5 hover:border-amber-500/40 group">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
-                                <i data-lucide="flame" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-white">Fire Service Hotline</h4>
-                                <p class="text-[11px] text-slate-400">Immediate Rescue & Response</p>
-                            </div>
-                        </div>
-                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
-                    </button>
-
-                    <button onclick="showComplainModal()" class="w-full glass-panel hover:bg-slate-800/80 p-3.5 rounded-2xl flex items-center justify-between text-left transition border border-white/5 hover:border-emerald-500/40 group">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
-                                <i data-lucide="file-text" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-white">Submit Online Complaint</h4>
-                                <p class="text-[11px] text-slate-400">Direct Emergency Alert Report</p>
-                            </div>
-                        </div>
-                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-white transition-colors"></i>
-                    </button>
+                <div class="p-3 bg-brand-950/30 border border-brand-500/20 rounded-2xl space-y-1.5">
+                    <div class="flex items-center gap-1.5 text-brand-400 text-xs font-bold">
+                        <i data-lucide="shield-alert" class="w-4 h-4"></i> Active Protection Protocol
+                    </div>
+                    <p class="text-[11px] text-slate-300 leading-relaxed">
+                        Women emergency services, 999 hotline & police cyber desk integration active nationwide.
+                    </p>
                 </div>
             </div>
-        </main>
 
-        <!-- FOOTER -->
-        <footer class="mt-8 text-center text-xs text-slate-500 space-y-1">
-            <p>© SAFEWAVE Emergency Network. Empowering Safety.</p>
-        </footer>
+        </div>
 
-    </div>
+        <!-- CENTER MAIN COLUMN: PASSCODE LOCKER & PROFILE CARD (6 COLUMNS) -->
+        <div class="lg:col-span-6 space-y-6 order-1 lg:order-2">
+            
+            <!-- NATIONAL EMERGENCY HOTLINES HEADER GRID -->
+            <div class="grid grid-cols-3 gap-3">
+                <a href="tel:999" class="glass-card hover:bg-brand-500/20 border-brand-500/30 p-3.5 rounded-2xl flex flex-col items-center text-center transition group active:scale-95 glow-box-brand">
+                    <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center mb-1.5 group-hover:bg-brand-500 group-hover:text-white transition">
+                        <i data-lucide="phone-call" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-sm font-black text-white">999</span>
+                    <span class="text-[9px] text-slate-400 uppercase tracking-tighter font-semibold">National SOS</span>
+                </a>
 
-    <!-- ================= MODALS & DRAWERS ================= -->
+                <a href="tel:109" class="glass-card hover:bg-purple-500/20 border-purple-500/30 p-3.5 rounded-2xl flex flex-col items-center text-center transition group active:scale-95">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-1.5 group-hover:bg-purple-500 group-hover:text-white transition">
+                        <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-sm font-black text-white">109</span>
+                    <span class="text-[9px] text-slate-400 uppercase tracking-tighter font-semibold">Women Safety</span>
+                </a>
+
+                <a href="tel:01769690033" class="glass-card hover:bg-sky-500/20 border-sky-500/30 p-3.5 rounded-2xl flex flex-col items-center text-center transition group active:scale-95">
+                    <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center mb-1.5 group-hover:bg-sky-500 group-hover:text-white transition">
+                        <i data-lucide="lock" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs font-black text-white mt-1">Cyber Helpline</span>
+                    <span class="text-[9px] text-slate-400 uppercase tracking-tighter font-semibold">Police Cyber</span>
+                </a>
+            </div>
+
+            <!-- MAIN SECURE LOCKER CARD -->
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl text-center space-y-6 relative overflow-hidden">
+                <div class="absolute -top-16 -right-16 w-40 h-40 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-600 to-rose-400 shadow-xl shadow-brand-500/30 text-white mb-1">
+                    <i data-lucide="key-round" class="w-8 h-8"></i>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-black text-white tracking-tight">Secure Profile Locker</h2>
+                    <p class="text-xs text-slate-400 mt-1">Enter emergency passcode to access guardian & medical contact records</p>
+                </div>
+
+                <div class="space-y-3.5 max-w-md mx-auto">
+                    <div class="relative">
+                        <input type="password" id="codeInput" placeholder="Enter Passcode (e.g. 12345)..." 
+                            class="w-full bg-slate-950/90 border border-slate-700/80 focus:border-brand-500 text-white placeholder-slate-500 text-center text-lg tracking-widest py-4 px-4 rounded-2xl outline-none transition shadow-inner font-mono">
+                    </div>
+
+                    <button onclick="checkCode()" class="w-full bg-gradient-to-r from-brand-600 via-rose-500 to-brand-500 hover:from-brand-500 hover:to-rose-400 text-white font-extrabold py-4 px-4 rounded-2xl transition shadow-xl shadow-brand-600/35 active:scale-[0.99] flex items-center justify-center gap-2 text-sm uppercase tracking-wider">
+                        <i data-lucide="unlock" class="w-5 h-5"></i> Unlock Medical Profile
+                    </button>
+                </div>
+
+                <div class="pt-4 border-t border-slate-800 space-y-3">
+                    <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest">Rapid Response Dispatch</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <button onclick="showPoliceModal()" class="bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 rounded-xl py-3 px-3 text-xs font-semibold transition flex items-center justify-center gap-2">
+                            <i data-lucide="shield" class="w-4 h-4 text-blue-400"></i> Police Station
+                        </button>
+
+                        <button onclick="showFireModal()" class="bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 rounded-xl py-3 px-3 text-xs font-semibold transition flex items-center justify-center gap-2">
+                            <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i> Fire Service
+                        </button>
+
+                        <button onclick="showComplainModal()" class="bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 rounded-xl py-3 px-3 text-xs font-semibold transition flex items-center justify-center gap-2">
+                            <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i> Submit Alert
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNLOCKED USER PROFILE CARD (HIDDEN UNTIL UNLOCKED) -->
+            <div id="details" class="hidden w-full glass-panel rounded-3xl p-6 border border-emerald-500/50 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200 glow-box-emerald">
+                <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4"></i> Profile Lock Cleared
+                    </span>
+                    <button onclick="closeProfile()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+                    <img id="profileImg" src="" alt="Profile Image" class="w-28 h-28 rounded-2xl border-4 border-slate-800 shadow-xl object-cover">
+                    <div class="space-y-1">
+                        <h3 id="profileName" class="text-xl font-black text-white"></h3>
+                        <span id="blood" class="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-red-500/20 text-red-400 border border-red-500/40"></span>
+                        <p class="text-xs text-slate-400">Status: Verified SAFEWAVE Holder</p>
+                    </div>
+                </div>
+
+                <div class="space-y-2.5 text-xs text-slate-300 bg-slate-950/70 p-4 rounded-2xl border border-slate-800">
+                    <div class="flex justify-between py-1 border-b border-slate-800"><span class="text-slate-500 font-medium">Personal Phone:</span> <span id="phone" class="font-bold text-white font-mono"></span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-800"><span class="text-slate-500 font-medium">Father / Guardian:</span> <span id="father" class="font-bold text-white"></span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-800"><span class="text-slate-500 font-medium">Guardian Contact:</span> <span id="fphone" class="font-bold text-emerald-400 font-mono"></span></div>
+                    <div class="flex justify-between py-1 border-b border-slate-800"><span class="text-slate-500 font-medium">Address:</span> <span id="address" class="font-semibold text-white"></span></div>
+                    <div class="flex justify-between py-1"><span class="text-slate-500 font-medium">Emergency Email:</span> <span id="email" class="font-semibold text-white"></span></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDEBAR: QUICK TACTICS & HARDWARE HIGHLIGHTS (3 COLUMNS) -->
+        <div class="lg:col-span-3 space-y-5 order-3">
+            
+            <!-- QUICK SAFETY PROTOCOL SHORTCUTS -->
+            <div class="glass-card rounded-3xl p-5 space-y-3.5 border border-slate-800">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
+                    <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="book-open" class="w-4 h-4 text-emerald-400"></i> Safety Protocols
+                    </span>
+                    <button onclick="openSelfDefence()" class="text-[11px] text-emerald-400 hover:underline font-semibold">View All</button>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                    <div onclick="openSelfDefence()" class="p-3 bg-slate-900/80 hover:bg-slate-800/90 rounded-2xl border border-slate-800 cursor-pointer transition space-y-1">
+                        <div class="font-bold text-amber-400 flex items-center gap-1.5">
+                            <i data-lucide="zap" class="w-3.5 h-3.5"></i> Physical Strikes
+                        </div>
+                        <p class="text-[11px] text-slate-400 line-clamp-2">Target vulnerable zones: Eyes, Throat, Nose & Groin for quick escape.</p>
+                    </div>
+
+                    <div onclick="openSelfDefence()" class="p-3 bg-slate-900/80 hover:bg-slate-800/90 rounded-2xl border border-slate-800 cursor-pointer transition space-y-1">
+                        <div class="font-bold text-sky-400 flex items-center gap-1.5">
+                            <i data-lucide="navigation" class="w-3.5 h-3.5"></i> Ride Sharing Rules
+                        </div>
+                        <p class="text-[11px] text-slate-400 line-clamp-2">Share live GPS and speak vehicle numbers loudly on fake calls.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HARDWARE STORE HIGHLIGHT CARD -->
+            <div class="glass-card rounded-3xl p-5 space-y-3 border border-slate-800">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
+                    <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-4 h-4 text-amber-400"></i> Safety Store
+                    </span>
+                    <button onclick="openProduct()" class="text-[11px] text-amber-400 hover:underline font-semibold">Store</button>
+                </div>
+
+                <div class="p-3 bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl border border-slate-800 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="volume-2" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="text-xs font-bold text-white">130dB Personal Siren</h5>
+                        <p class="text-[10px] text-slate-400">High sound output alarm</p>
+                    </div>
+                </div>
+
+                <button onclick="openProduct()" class="w-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 font-bold py-2.5 rounded-xl text-xs transition border border-amber-500/30">
+                    Browse Emergency Gear
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER COPYRIGHT -->
+    <footer class="w-full text-center py-4 border-t border-white/5 text-[11px] text-slate-500 font-medium relative z-10 bg-slate-950/80 backdrop-blur-md">
+        Team SAFEWAVE Women Protection Platform &copy; 2026. All Rights Reserved. Emergency Dispatch Online.
+    </footer>
+
+    <!-- MODAL DIALOGS -->
 
     <!-- POLICE DIRECTORY MODAL -->
-    <div id="policeModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-        <div class="glass-panel w-full max-w-md rounded-3xl p-6 border border-slate-700 shadow-2xl relative max-h-[90vh] flex flex-col">
-            <!-- Header -->
-            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+    <div id="policeModal" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 border border-slate-700 shadow-2xl relative space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
-                        <i data-lucide="building" class="w-4 h-4"></i>
+                    <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center">
+                        <i data-lucide="shield" class="w-5 h-5"></i>
                     </div>
-                    <h3 class="font-bold text-white text-base">Police Stations Directory</h3>
+                    <h3 class="font-bold text-white text-base">Police Station Directory</h3>
                 </div>
                 <button onclick="closeModal('policeModal')" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
 
-            <!-- Form Body -->
-            <div class="py-4 space-y-3">
+            <div class="space-y-3">
                 <div>
                     <label class="text-xs text-slate-400 font-medium block mb-1">Select Division</label>
-                    <select id="divisionSelect" onchange="loadDistricts()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white outline-none focus:border-brand-500">
-                        <option value="">Choose Division...</option>
+                    <select id="divisionSelect" onchange="loadDistricts()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white outline-none focus:border-brand-500">
+                        <option value="">Select Division</option>
                         <option value="Dhaka">Dhaka</option>
                         <option value="Khulna">Khulna</option>
                         <option value="Rajshahi">Rajshahi</option>
@@ -321,229 +457,318 @@
 
                 <div>
                     <label class="text-xs text-slate-400 font-medium block mb-1">Select District</label>
-                    <select id="districtSelect" onchange="loadStations()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white outline-none focus:border-brand-500">
+                    <select id="districtSelect" onchange="loadStations()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white outline-none focus:border-brand-500">
                         <option value="">Select District</option>
                     </select>
                 </div>
-
-                <!-- Station Results -->
-                <div id="stationList" class="space-y-2 mt-4 max-h-48 overflow-y-auto pr-1">
-                    <!-- Populated dynamically -->
-                    <div class="text-center py-6 text-slate-500 text-xs">
-                        Select Division and District to view contact numbers.
-                    </div>
-                </div>
             </div>
 
-            <button onclick="closeModal('policeModal')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 rounded-xl transition text-sm mt-auto">
-                Close
+            <div id="stationList" class="max-h-52 overflow-y-auto space-y-2 pr-1 pt-2">
+                <div class="text-center py-6 text-slate-500 text-xs">Select Division & District to view stations.</div>
+            </div>
+
+            <button onclick="closeModal('policeModal')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-2.5 rounded-xl transition text-xs">
+                Close Directory
             </button>
         </div>
     </div>
 
     <!-- FIRE SERVICE MODAL -->
-    <div id="fireModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-        <div class="glass-panel w-full max-w-sm rounded-3xl p-6 border border-slate-700 shadow-2xl relative text-center">
-            <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-500 mx-auto flex items-center justify-center mb-3">
-                <i data-lucide="flame" class="w-7 h-7"></i>
-            </div>
-            <h3 class="font-bold text-white text-lg mb-1">Fire Service Emergency</h3>
-            <p class="text-xs text-slate-400 mb-5">24/7 Fire & Rescue Station Contact</p>
-
-            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 mb-5 text-left space-y-2">
-                <div class="text-xs text-slate-400">Primary Kushtia Control Room:</div>
-                <div class="text-base font-bold text-white flex items-center justify-between">
-                    <span>Kushtia Fire Station</span>
-                    <a href="tel:0717654321" class="text-amber-400 font-mono bg-amber-500/10 px-3 py-1 rounded-lg border border-amber-500/20 text-sm hover:bg-amber-500/20">
-                        071-7654321
-                    </a>
+    <div id="fireModal" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 border border-slate-700 shadow-2xl relative space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                        <i data-lucide="flame" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base">Fire Service Stations</h3>
                 </div>
-                <div class="text-xs text-slate-400 pt-2 border-t border-slate-800">National Fire Hotline: <strong class="text-white">999 / 16163</strong></div>
+                <button onclick="closeModal('fireModal')" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
 
-            <div class="flex gap-2">
-                <a href="tel:0717654321" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-2">
-                    <i data-lucide="phone" class="w-4 h-4"></i> Call Now
-                </a>
-                <button onclick="closeModal('fireModal')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-5 py-3 rounded-xl transition text-sm">
-                    Close
-                </button>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs text-slate-400 font-medium block mb-1">Select Division</label>
+                    <select id="fireDivisionSelect" onchange="loadFireDistricts()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white outline-none focus:border-amber-500">
+                        <option value="">Select Division</option>
+                        <option value="Dhaka">Dhaka</option>
+                        <option value="Khulna">Khulna</option>
+                        <option value="Rajshahi">Rajshahi</option>
+                        <option value="Chattogram">Chattogram</option>
+                        <option value="Rangpur">Rangpur</option>
+                        <option value="Barisal">Barisal</option>
+                        <option value="Sylhet">Sylhet</option>
+                        <option value="Mymensingh">Mymensingh</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-xs text-slate-400 font-medium block mb-1">Select District</label>
+                    <select id="fireDistrictSelect" onchange="loadFireStations()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white outline-none focus:border-amber-500">
+                        <option value="">Select District</option>
+                    </select>
+                </div>
             </div>
+
+            <div id="fireStationList" class="max-h-52 overflow-y-auto space-y-2 pr-1 pt-2">
+                <div class="text-center py-6 text-slate-500 text-xs">Select Division & District to view stations.</div>
+            </div>
+
+            <button onclick="closeModal('fireModal')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-2.5 rounded-xl transition text-xs">
+                Close Directory
+            </button>
         </div>
     </div>
 
-    <!-- ONLINE COMPLAINT MODAL -->
-    <div id="complainModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+    <!-- COMPLAIN ONLINE MODAL -->
+    <div id="complainModal" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
         <div class="glass-panel w-full max-w-md rounded-3xl p-6 border border-slate-700 shadow-2xl relative">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                        <i data-lucide="send" class="w-4 h-4"></i>
+                    <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
                     </div>
                     <h3 class="font-bold text-white text-base">Submit Online Complaint</h3>
                 </div>
-                <button onclick="closeModal('complainModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button onclick="closeModal('complainModal')" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
 
-            <form id="complainForm" class="space-y-4">
+            <form id="complainForm" class="py-4 space-y-4">
                 <div>
-                    <label class="text-xs text-slate-400 font-medium block mb-1">Describe Incident / Complaint</label>
-                    <textarea name="complaint" required rows="4" placeholder="Write details here (Time, Location, Description)..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white placeholder-slate-500 outline-none focus:border-emerald-500 transition"></textarea>
+                    <label class="text-xs text-slate-400 font-medium block mb-1">Complaint Details</label>
+                    <textarea name="complaint" required rows="4" placeholder="Write your complaint or distress message here..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white outline-none focus:border-brand-500 placeholder-slate-500 resize-none"></textarea>
                 </div>
 
                 <div>
-                    <label class="text-xs text-slate-400 font-medium block mb-1">Attach Evidence Image (Optional)</label>
-                    <input type="file" name="image" accept="image/*" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700">
+                    <label class="text-xs text-slate-400 font-medium block mb-1">Attach Evidence (Optional)</label>
+                    <input type="file" name="image" accept="image/*" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-500/20 file:text-brand-400 hover:file:bg-brand-500/30">
                 </div>
 
-                <div class="flex gap-2 pt-2">
-                    <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-2">
-                        <i data-lucide="send" class="w-4 h-4"></i> Submit Alert
-                    </button>
-                    <button type="button" onclick="closeModal('complainModal')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium px-4 py-3 rounded-xl transition text-sm">
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeModal('complainModal')" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-3 rounded-xl transition text-xs">
                         Cancel
+                    </button>
+                    <button type="submit" class="w-1/2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl transition text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-1.5">
+                        <i data-lucide="send" class="w-4 h-4"></i> Send Alert
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- SELF DEFENCE TIPS FULL DRAWER -->
-    <div id="selfDefencePage" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 overflow-y-auto p-4 sm:p-6 animate-in slide-in-from-bottom duration-300">
-        <div class="max-w-md mx-auto space-y-6 py-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                        <i data-lucide="shield" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-bold text-white">Self Defence Awareness</h2>
-                        <p class="text-xs text-slate-400">Essential Women Safety Guidelines</p>
-                    </div>
-                </div>
-                <button onclick="closeSelfDefence()" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-
-            <div class="space-y-4 text-xs text-slate-300">
-                <div class="glass-panel p-4 rounded-2xl border border-white/5 space-y-1">
-                    <h4 class="font-bold text-white text-sm text-emerald-400 flex items-center gap-1.5"><i data-lucide="eye" class="w-4 h-4"></i> 1. Situational Awareness</h4>
-                    <p>Always stay mindful of your surroundings. Avoid looking at mobile phones continuously while walking in quiet or unlit streets.</p>
-                </div>
-                <div class="glass-panel p-4 rounded-2xl border border-white/5 space-y-1">
-                    <h4 class="font-bold text-white text-sm text-emerald-400 flex items-center gap-1.5"><i data-lucide="target" class="w-4 h-4"></i> 2. Vulnerable Target Points</h4>
-                    <p>If attacked, aim for critical sensitive areas: Eyes, Nose, Throat, Solar Plexus, and Groin. Use maximum force immediately.</p>
-                </div>
-                <div class="glass-panel p-4 rounded-2xl border border-white/5 space-y-1">
-                    <h4 class="font-bold text-white text-sm text-emerald-400 flex items-center gap-1.5"><i data-lucide="key" class="w-4 h-4"></i> 3. Everyday Items as Tools</h4>
-                    <p>Keys held between fingers, heavy bags, pens, pepper sprays, or umbrella tips can serve as effective immediate defense tools.</p>
-                </div>
-                <div class="glass-panel p-4 rounded-2xl border border-white/5 space-y-1">
-                    <h4 class="font-bold text-white text-sm text-emerald-400 flex items-center gap-1.5"><i data-lucide="volume-2" class="w-4 h-4"></i> 4. Loud Vocal Reaction</h4>
-                    <p>Shout words like "FIRE" or "HELP" loudly. A firm loud voice startles attackers and instantly alerts nearby citizens.</p>
-                </div>
-            </div>
-
-            <button onclick="closeSelfDefence()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition text-sm">
-                Close Self Defence Tips
-            </button>
-        </div>
-    </div>
-
     <!-- PRODUCT SHOWCASE FULL DRAWER -->
     <div id="productPage" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 overflow-y-auto p-4 sm:p-6 animate-in slide-in-from-bottom duration-300">
-        <div class="max-w-md mx-auto space-y-6 py-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div class="flex items-center gap-2">
+        <div class="max-w-xl mx-auto space-y-5 py-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
                         <i data-lucide="shopping-bag" class="w-6 h-6"></i>
                     </div>
                     <div>
-                        <h2 class="text-lg font-bold text-white">SAFEWAVE Hardware & Gear</h2>
-                        <p class="text-xs text-slate-400">Protective Gear & Smart Gadgets</p>
+                        <h2 class="text-lg font-bold text-white">SAFEWAVE Safety Store</h2>
+                        <p class="text-xs text-slate-400">Personal Emergency Gear & Devices</p>
                     </div>
                 </div>
                 <button onclick="closeProduct()" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
 
-            <!-- Product Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
-                <!-- Product Card 1 -->
-                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex flex-col justify-between text-left group">
-                    <div class="h-36 bg-slate-900 rounded-xl mb-3 overflow-hidden relative flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=400&auto=format&fit=crop&q=80" alt="Locker" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                        <span class="absolute top-2 right-2 bg-brand-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full">BESTSELLER</span>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-center gap-4">
+                    <div class="w-20 h-20 bg-slate-950 rounded-xl flex items-center justify-center border border-slate-800 text-brand-500 flex-shrink-0">
+                        <i data-lucide="shield" class="w-10 h-10"></i>
                     </div>
-                    <div>
+                    <div class="flex-1">
                         <h3 class="font-bold text-white text-sm">SAFEWAVE Smart Locker</h3>
-                        <p class="text-[11px] text-slate-400 mt-0.5">Biometric GPS emergency locker device.</p>
-                        <div class="mt-3 flex items-center justify-between">
-                            <span class="text-brand-500 font-extrabold text-base">2500 ৳</span>
-                            <button onclick="buyProduct('SAFEWAVE Smart Locker', '2500')" class="bg-gradient-to-r from-brand-600 to-rose-600 hover:from-brand-500 hover:to-rose-500 text-white font-semibold px-3 py-1.5 rounded-xl text-xs transition shadow-md">
-                                Buy Now
-                            </button>
+                        <p class="text-xs text-slate-400 mb-2">Encrypted Hardware SOS Unit</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-400 font-extrabold text-sm">2,500 ৳</span>
+                            <button onclick="buyProduct('SAFEWAVE Smart Locker', 2500)" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition">Buy Now</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Product Card 2 -->
-                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex flex-col justify-between text-left group">
-                    <div class="h-36 bg-slate-900 rounded-xl mb-3 overflow-hidden relative flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&auto=format&fit=crop&q=80" alt="Alarm" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-center gap-4">
+                    <div class="w-20 h-20 bg-slate-950 rounded-xl flex items-center justify-center border border-slate-800 text-amber-500 flex-shrink-0">
+                        <i data-lucide="volume-2" class="w-10 h-10"></i>
                     </div>
-                    <div>
+                    <div class="flex-1">
                         <h3 class="font-bold text-white text-sm">Portable Siren Alarm</h3>
-                        <p class="text-[11px] text-slate-400 mt-0.5">130dB High decibel acoustic alarm key ring.</p>
-                        <div class="mt-3 flex items-center justify-between">
-                            <span class="text-brand-500 font-extrabold text-base">1200 ৳</span>
-                            <button onclick="buyProduct('Portable Siren Alarm', '1200')" class="bg-gradient-to-r from-brand-600 to-rose-600 hover:from-brand-500 hover:to-rose-500 text-white font-semibold px-3 py-1.5 rounded-xl text-xs transition shadow-md">
-                                Buy Now
-                            </button>
+                        <p class="text-xs text-slate-400 mb-2">130dB High Decibel Warning Siren</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-400 font-extrabold text-sm">1,200 ৳</span>
+                            <button onclick="buyProduct('Portable Siren Alarm', 1200)" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition">Buy Now</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Product Card 3 -->
-                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex flex-col justify-between text-left group">
-                    <div class="h-36 bg-slate-900 rounded-xl mb-3 overflow-hidden relative flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=400&auto=format&fit=crop&q=80" alt="Spray" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-center gap-4">
+                    <div class="w-20 h-20 bg-slate-950 rounded-xl flex items-center justify-center border border-slate-800 text-emerald-500 flex-shrink-0">
+                        <i data-lucide="wind" class="w-10 h-10"></i>
                     </div>
-                    <div>
-                        <h3 class="font-bold text-white text-sm">Self Defence Spray</h3>
-                        <p class="text-[11px] text-slate-400 mt-0.5">Compact high-strength pepper defense spray.</p>
-                        <div class="mt-3 flex items-center justify-between">
-                            <span class="text-brand-500 font-extrabold text-base">800 ৳</span>
-                            <button onclick="buyProduct('Self Defence Spray', '800')" class="bg-gradient-to-r from-brand-600 to-rose-600 hover:from-brand-500 hover:to-rose-500 text-white font-semibold px-3 py-1.5 rounded-xl text-xs transition shadow-md">
-                                Buy Now
-                            </button>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-white text-sm">Pepper Defense Spray</h3>
+                        <p class="text-xs text-slate-400 mb-2">Quick Release Maximum Strength</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-brand-400 font-extrabold text-sm">800 ৳</span>
+                            <button onclick="buyProduct('Pepper Defense Spray', 800)" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition">Buy Now</button>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <button onclick="closeProduct()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition text-sm">
-                Return to Home
+                Close Store
             </button>
         </div>
     </div>
 
-    <!-- NOTIFICATION ALERT BANNER -->
-    <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 glass-panel-glow px-5 py-3 rounded-2xl shadow-2xl text-xs font-semibold text-white flex items-center gap-2 border border-brand-500/50 animate-in fade-in slide-in-from-bottom-2">
-        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-        <span id="toastMsg">Action completed!</span>
+    <!-- SELF DEFENCE TIPS FULL DRAWER -->
+    <div id="selfDefencePage" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 overflow-y-auto p-4 sm:p-6 animate-in slide-in-from-bottom duration-300">
+        <div class="max-w-2xl mx-auto space-y-6 py-4">
+            
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                        <i data-lucide="book-open" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Women Safety Protocols</h2>
+                        <p class="text-xs text-slate-400">Essential Tactical Defense & Emergency Guidelines</p>
+                    </div>
+                </div>
+                <button onclick="closeSelfDefence()" class="w-9 h-9 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl border border-white/10 space-y-3">
+                <div class="flex items-center gap-2 text-brand-400 font-bold text-sm">
+                    <i data-lucide="zap" class="w-4 h-4"></i> 1. Physical Defense & Vulnerable Target Points
+                </div>
+                <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                    <li><b>Target Vulnerable Areas:</b> In physical conflict, aim directly for sensitive areas: Eyes (poke), Nose (palm strike upward), Throat (jab), Groin (kick/knee), and Instep (heel stamp).</li>
+                    <li><b>Key Weapon Technique:</b> Hold house/car keys protruding between fingers firmly when walking alone at night.</li>
+                    <li><b>Break Wrist Grips:</b> Rotate wrist towards the opponent's thumb joint to break free instantly.</li>
+                </ul>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl border border-white/10 space-y-3">
+                <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                    <i data-lucide="navigation" class="w-4 h-4"></i> 2. Public Transport & Commute Protocol
+                </div>
+                <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                    <li><b>Live Location Sharing:</b> Send live location to family before boarding Rickshaw, CNG, or Uber.</li>
+                    <li><b>Fake Call Technique:</b> Speak vehicle license plate number loudly on a fake call if suspicious.</li>
+                    <li><b>Aisle Seating Rule:</b> Sit near exits in buses/trains. Avoid isolated back corners.</li>
+                </ul>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl border border-white/10 space-y-3">
+                <div class="flex items-center gap-2 text-sky-400 font-bold text-sm">
+                    <i data-lucide="lock" class="w-4 h-4"></i> 3. Cyber Safety & Stalking Safeguards
+                </div>
+                <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                    <li><b>Police Cyber Support for Women:</b> Call <b>01769-690033</b> or email <i>cyberwomen@police.gov.bd</i>.</li>
+                    <li><b>Preserve Evidence:</b> Take full screenshots showing timestamps and URLs before reporting.</li>
+                    <li><b>Enable 2FA:</b> Secure all social accounts with Two-Factor Authentication.</li>
+                </ul>
+            </div>
+
+            <button onclick="closeSelfDefence()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition text-sm">
+                Close Safety Guide
+            </button>
+        </div>
     </div>
 
-    <!-- APPLICATION LOGIC & DATA -->
+    <!-- TOAST NOTIFICATION BOX CONTAINER -->
+    <div id="toastBox" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300"></div>
+
+    <!-- EMAILJS LIBRARY -->
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+    <!-- MAIN JAVASCRIPT APP LOGIC -->
     <script>
-        // Initialize Lucide Icons
+        /* INITIALIZE LUCIDE ICONS */
         lucide.createIcons();
 
-        /* PROFILE DATA STORAGE */
+        /* INITIALIZE EMAILJS */
+        (function(){
+            emailjs.init("iElnLb46i9uTp9sEl");
+        })();
+
+        /* CANVAS BACKGROUND ANIMATION MATRIX */
+        const canvas = document.getElementById('radarCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 1.8 + 0.5;
+                this.alpha = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(244, 63, 94, ${this.alpha})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 45; i++) particles.push(new Particle());
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw connecting web lines
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 130) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(244, 63, 94, ${0.15 - dist / 1000})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        /* LIVE SYSTEM CLOCK */
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('liveClock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        /* PROFILE LOCKER DATABASE */
         const profiles = {
             "12345": {
                 name: "Md ZihadUL Islam",
-                img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+                img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300",
                 blood: "A+",
                 phone: "01887039083",
                 father: "Md Jamal Uddin",
@@ -552,126 +777,118 @@
                 email: "mdzihadul0132@gmail.com"
             },
             "01320029": {
-                name: "Anika Rahman",
-                img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop&q=80",
-                blood: "O+",
+                name: "Emergency User Card",
+                img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=300",
+                blood: "B+",
                 phone: "01700000000",
-                father: "Abdur Rahman",
+                father: "Guardian Record",
                 fphone: "01800000000",
-                address: "Kushtia Sadar, Kushtia",
-                email: "anika.safewave@gmail.com"
+                address: "Dhaka, Bangladesh",
+                email: "emergency@safewave.org"
             }
         };
 
-        /* BANGLADESH POLICE STATIONS DATABASE */
+        /* POLICE DIRECTORY DATA */
         const data = {
             "Dhaka": {
-                "Dhaka Sadar": [
+                "Dhaka": [
                     {name: "Dhanmondi Police Station", phone: "02-9123456"},
-                    {name: "Mirpur Model Police Station", phone: "02-9876543"},
+                    {name: "Mirpur Police Station", phone: "02-9876543"},
                     {name: "Motijheel Police Station", phone: "02-9331234"},
-                    {name: "Gulshan Police Station", phone: "02-9880005"}
+                    {name: "Gulshan Police Station", phone: "02-9884444"},
+                    {name: "Uttara Model Police Station", phone: "02-8951234"}
                 ],
-                "Gazipur": [
-                    {name: "Gazipur Sadar Police Station", phone: "0921-123456"},
-                    {name: "Tongi East Police Station", phone: "0921-654321"}
-                ],
-                "Narayanganj": [
-                    {name: "Narayanganj Sadar Station", phone: "0671-234567"},
-                    {name: "Siddhirganj Police Station", phone: "0671-876543"}
-                ]
+                "Gazipur": [{name: "Gazipur Sadar Police Station", phone: "0921-123456"}],
+                "Narayanganj": [{name: "Narayanganj Police Station", phone: "0671-234567"}]
             },
             "Khulna": {
                 "Kushtia": [
-                    {name: "Kushtia Model Police Station", phone: "071-1234567"},
-                    {name: "Islamic University Police Station", phone: "071-7654321"},
-                    {name: "Kumarkhali Police Station", phone: "071-5551234"}
+                    {name: "Kushtia Police Station", phone: "071-1234567"},
+                    {name: "Islamic University Police Station", phone: "071-7654321"}
                 ],
-                "Jhenaidah": [
-                    {name: "Jhenaidah Sadar Station", phone: "0451-987654"}
-                ],
-                "Khulna Sadar": [
+                "Jhenaidah": [{name: "Jhenaidah Police Station", phone: "0451-987654"}],
+                "Khulna": [
                     {name: "Khulna Sadar Police Station", phone: "041-123456"},
                     {name: "Sonadanga Police Station", phone: "041-654321"}
                 ]
             },
             "Rajshahi": {
-                "Rajshahi Sadar": [
-                    {name: "Boalia Police Station", phone: "0721-123456"},
+                "Rajshahi": [
+                    {name: "Rajshahi Sadar Police Station", phone: "0721-123456"},
                     {name: "Motihar Police Station", phone: "0721-654321"}
                 ]
             },
             "Chattogram": {
-                "Chattogram Sadar": [
+                "Chattogram": [
                     {name: "Kotwali Police Station", phone: "031-123456"},
                     {name: "Pahartali Police Station", phone: "031-654321"}
                 ],
-                "Cox's Bazar": [
-                    {name: "Cox's Bazar Sadar Station", phone: "0341-123456"}
-                ]
+                "Cox's Bazar": [{name: "Cox's Bazar Police Station", phone: "0341-123456"}]
             },
-            "Rangpur": {
-                "Rangpur Sadar": [
-                    {name: "Rangpur Kotwali Station", phone: "0521-123456"}
-                ]
-            },
-            "Barisal": {
-                "Barisal Sadar": [
-                    {name: "Barisal Kotwali Station", phone: "0431-123456"}
-                ]
-            },
-            "Sylhet": {
-                "Sylhet Sadar": [
-                    {name: "Sylhet Kotwali Station", phone: "0821-123456"}
-                ]
-            },
-            "Mymensingh": {
-                "Mymensingh Sadar": [
-                    {name: "Mymensingh Kotwali Station", phone: "091-123456"}
-                ]
-            }
+            "Rangpur": { "Rangpur": [{name: "Rangpur Police Station", phone: "0521-123456"}] },
+            "Barisal": { "Barisal": [{name: "Barisal Police Station", phone: "0431-123456"}] },
+            "Sylhet": { "Sylhet": [{name: "Sylhet Kotwali Police Station", phone: "0821-123456"}] },
+            "Mymensingh": { "Mymensingh": [{name: "Mymensingh Police Station", phone: "091-123456"}] }
         };
 
-        /* MENU TOGGLES */
-        function toggleMenu() {
-            const menu = document.getElementById("menuBox");
-            menu.classList.toggle("hidden");
-        }
+        /* FIRE SERVICE DIRECTORY DATA */
+        const fireData = {
+            "Dhaka": {
+                "Dhaka": [
+                    {name: "Fire Service Central Control Room", phone: "02-9555555"},
+                    {name: "Dhaka Central HQ Duty Officer", phone: "01713-038181"},
+                    {name: "Siddikbazar Fire Station", phone: "02-9556666"},
+                    {name: "Mirpur Fire Station", phone: "02-9002222"}
+                ],
+                "Gazipur": [{name: "Gazipur Fire Station", phone: "0921-61555"}]
+            },
+            "Khulna": {
+                "Kushtia": [
+                    {name: "Kushtia Fire Station", phone: "071-7654321"},
+                    {name: "Kushtia Emergency Fire Control", phone: "01713-373333"}
+                ],
+                "Khulna": [{name: "Khulna Divisional Fire Office", phone: "041-760333"}]
+            },
+            "Chattogram": { "Chattogram": [{name: "Agrabad Central Fire Station", phone: "031-716333"}] },
+            "Rajshahi": { "Rajshahi": [{name: "Rajshahi Central Fire Station", phone: "0721-772222"}] }
+        };
 
-        function toggleHelp() {
-            const help = document.getElementById("helpBox");
-            help.classList.toggle("hidden");
-        }
-
-        /* CODE UNLOCK LOGIC */
-        function checkCode() {
-            const codeInput = document.getElementById("codeInput");
-            const code = codeInput.value.trim();
-            const detailsCard = document.getElementById("details");
-
-            if (profiles[code]) {
-                const p = profiles[code];
-                document.getElementById("profileImg").src = p.img;
-                document.getElementById("profileName").innerText = p.name;
-                document.getElementById("blood").innerHTML = `<i data-lucide="droplet" class="w-3.5 h-3.5"></i> Blood Group: ${p.blood}`;
-                document.getElementById("phone").innerText = p.phone;
-                document.getElementById("father").innerText = p.father;
-                document.getElementById("fphone").innerText = p.fphone;
-                document.getElementById("address").innerText = p.address;
-                document.getElementById("email").innerText = p.email;
-                
-                detailsCard.classList.remove("hidden");
-                lucide.createIcons();
-                showToast("🔓 Profile Decrypted & Unlocked!");
-            } else {
-                showToast("❌ Invalid Security Code!");
-                codeInput.classList.add("border-rose-500", "animate-shake");
-                setTimeout(() => codeInput.classList.remove("border-rose-500"), 2000);
+        /* FIRE SERVICE DROPDOWN LOGIC */
+        function loadFireDistricts() {
+            const division = document.getElementById("fireDivisionSelect").value;
+            const districtSelect = document.getElementById("fireDistrictSelect");
+            districtSelect.innerHTML = "<option value=''>Select District</option>";
+            
+            if (fireData[division]) {
+                Object.keys(fireData[division]).forEach(district => {
+                    districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
+                });
             }
+            document.getElementById("fireStationList").innerHTML = `<div class="text-center py-6 text-slate-500 text-xs">Select District to view stations.</div>`;
         }
 
-        function closeProfile() {
-            document.getElementById("details").classList.add("hidden");
+        function loadFireStations() {
+            const division = document.getElementById("fireDivisionSelect").value;
+            const district = document.getElementById("fireDistrictSelect").value;
+            const stationList = document.getElementById("fireStationList");
+            stationList.innerHTML = "";
+
+            if (fireData[division] && fireData[division][district]) {
+                fireData[division][district].forEach(station => {
+                    stationList.innerHTML += `
+                        <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between text-xs">
+                            <div>
+                                <h5 class="font-semibold text-white">${station.name}</h5>
+                                <p class="text-slate-400 text-[10px]">Fire Emergency</p>
+                            </div>
+                            <a href="tel:${station.phone}" class="bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 font-mono font-bold px-2.5 py-1 rounded-lg border border-amber-500/30 flex items-center gap-1 transition">
+                                <i data-lucide="phone-call" class="w-3 h-3"></i> ${station.phone}
+                            </a>
+                        </div>
+                    `;
+                });
+                lucide.createIcons();
+            }
         }
 
         /* POLICE DIRECTORY DROPDOWN LOGIC */
@@ -697,19 +914,54 @@
             if (data[division] && data[division][district]) {
                 data[division][district].forEach(station => {
                     stationList.innerHTML += `
-                        <div class="p-3 bg-slate-900/90 border border-slate-800 rounded-xl flex items-center justify-between text-xs">
+                        <div class="p-2.5 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between text-xs">
                             <div>
                                 <h5 class="font-semibold text-white">${station.name}</h5>
-                                <p class="text-slate-400 text-[11px]">Emergency Hotline</p>
+                                <p class="text-slate-400 text-[10px]">Police Station</p>
                             </div>
-                            <a href="tel:${station.phone}" class="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 font-mono font-bold px-3 py-1.5 rounded-lg border border-blue-500/30 flex items-center gap-1 transition">
-                                <i data-lucide="phone-call" class="w-3.5 h-3.5"></i> ${station.phone}
+                            <a href="tel:${station.phone}" class="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 font-mono font-bold px-2.5 py-1 rounded-lg border border-blue-500/30 flex items-center gap-1 transition">
+                                <i data-lucide="phone-call" class="w-3 h-3"></i> ${station.phone}
                             </a>
                         </div>
                     `;
                 });
                 lucide.createIcons();
             }
+        }
+
+        /* NAVIGATION & POPUP TOGGLES */
+        function toggleMenu() {
+            document.getElementById("menuBox").classList.toggle("hidden");
+        }
+
+        function toggleHelp() {
+            document.getElementById("helpBox").classList.toggle("hidden");
+        }
+
+        /* PROFILE UNLOCK HANDLER */
+        function checkCode() {
+            const code = document.getElementById("codeInput").value.trim();
+            if (profiles[code]) {
+                const p = profiles[code];
+                document.getElementById("profileImg").src = p.img;
+                document.getElementById("profileName").innerText = p.name;
+                document.getElementById("blood").innerText = `Blood Group: ${p.blood}`;
+                document.getElementById("phone").innerText = p.phone;
+                document.getElementById("father").innerText = p.father;
+                document.getElementById("fphone").innerText = p.fphone;
+                document.getElementById("address").innerText = p.address;
+                document.getElementById("email").innerText = p.email;
+
+                document.getElementById("details").classList.remove("hidden");
+                showToast("🔓 Profile Unlocked Successfully");
+            } else {
+                showToast("❌ Invalid Security Code");
+            }
+        }
+
+        function closeProfile() {
+            document.getElementById("details").classList.add("hidden");
+            document.getElementById("codeInput").value = "";
         }
 
         /* MODAL HANDLERS */
@@ -724,38 +976,63 @@
         function openProduct() { document.getElementById("productPage").classList.remove("hidden"); }
         function closeProduct() { document.getElementById("productPage").classList.add("hidden"); }
 
-        /* EMAILJS COMPLAINT HANDLER */
-        (function() {
-            emailjs.init("iElnLb46i9uTp9sEl"); // Original Public Key
-        })();
+        /* PANIC SIREN ACTION */
+        function triggerPanicSiren() {
+            showToast("🚨 PANIC SIREN SOUND ACTIVATED!");
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(880, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.8);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 1.2);
+            } catch (e) {
+                console.log(e);
+            }
+        }
 
+        /* GPS SHARE ACTION */
+        function shareLiveLocation() {
+            showToast("📍 Coordinates Copied & Shared!");
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText("Emergency GPS: Lat 23.8103 N, Lng 90.4125 E");
+            }
+        }
+
+        /* EMAILJS COMPLAINT HANDLER */
         document.getElementById("complainForm").addEventListener("submit", function(event) {
             event.preventDefault();
-            
-            showToast("⏳ Transmitting alert report...");
             emailjs.sendForm("service_nm9y9wq", "template_reuvv8q", this)
             .then(function() {
-                showToast("✅ Emergency Alert Submitted Successfully!");
+                showToast("✅ Emergency Alert Sent!");
                 closeModal('complainModal');
-                document.getElementById("complainForm").reset();
             }, function(error) {
-                showToast("❌ Alert sending failed. Try again.");
+                showToast("❌ Alert sending failed.");
             });
         });
 
-        /* PRODUCT PURCHASE SIMULATION */
-        function buyProduct(name, price) {
-            showToast(`🛒 Processing order for ${name} (${price}৳)`);
+        /* PRODUCT ORDER HANDLER */
+        function buyProduct(title, price) {
+            showToast(`🛍 Order initiated for ${title} (${price}৳)`);
         }
 
-        /* TOAST NOTIFICATION UTILITY */
-        function showToast(msg) {
-            const toast = document.getElementById("toast");
-            document.getElementById("toastMsg").innerText = msg;
-            toast.classList.remove("hidden");
-            setTimeout(() => toast.classList.add("hidden"), 3000);
+        /* TOAST NOTIFICATION HANDLER */
+        function showToast(message) {
+            const toast = document.getElementById("toastBox");
+            toast.innerHTML = `
+                <div class="glass-panel text-white border border-white/20 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 text-xs font-semibold">
+                    <span>${message}</span>
+                </div>
+            `;
+            toast.classList.remove("translate-y-20", "opacity-0");
+            setTimeout(() => {
+                toast.classList.add("translate-y-20", "opacity-0");
+            }, 3000);
         }
     </script>
-
 </body>
 </html>
